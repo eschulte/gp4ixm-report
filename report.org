@@ -426,13 +426,22 @@ evo individuals are check on the (0..9) range inclusive
   puts $stack.pop
 #+end_src
 
-#+begin_src gnuplot :file graphs/s.100_g.2_best.png
+#+begin_src gnuplot
   set xrange[0:10]
   set xtics 0,1,10
   set yrange[-120:120]
   set grid
   plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
 #+end_src
+
+wider range
+
+#+begin_src gnuplot
+  set grid
+  plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
+#+end_src
+
+
 *** narrow down to a specific goal
 #+begin_src ruby
   by_goal = data.select{|d| d.goal == 0}; by_goal.size
@@ -522,7 +531,10 @@ visualize -- dump a set of data to a series of png images in a directory
       #   timer = d.time.floor
       #   g.plot(timer)
       # end
-      g.plot(d.time) if d.time < 10
+      if d.time < 20
+        timer += 1
+        g.plot(sprintf("%04d", timer))
+      end
     end
     timer
   end
@@ -532,8 +544,12 @@ visualize -- dump a set of data to a series of png images in a directory
   visualize(temp_by_group, 1000, 0, 4)
 #+end_src
 
-**** conversion into a movie
-see http://electron.mit.edu/~gsteele/ffmpeg/
+conversion into a movie
+- with instructions from http://electron.mit.edu/~gsteele/ffmpeg/
+- done with ffmpeg
+  #+begin_src sh
+    ffmpeg -r 4 -i %04d.png ./evo_eight_100_2_1.mp4
+  #+end_src
 
 * Footnotes
 

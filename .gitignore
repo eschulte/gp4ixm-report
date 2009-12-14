@@ -2,5 +2,7 @@
 .DS_Store
 
 data/*
+graphs/*.png
 videos/**/*.png
 videos/**/**/*.data
+videos/*.mp4
