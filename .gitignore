@@ -1,3 +1,6 @@
+# get rid of mac cruft
+.DS_Store
+
 data/*
 videos/**/*.png
 videos/**/**/*.data
