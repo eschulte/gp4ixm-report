@@ -47,9 +47,11 @@ which will run effectively in the IXM environment.
 ** GP -- implementation and defense of deviations from the norm
 In an effort to better align with the IXM platform the GP system
 employed in this work differs from GP norms in a number of areas.
-These deviations will be defended as they arise.
-
-First an overview of the key components.
+These deviations will be defended as they arise.  The source code for
+the GP implementation described below can be found in
+[[file:src/evolve-sketch.pde][evolve-sketch.pde]] and [[file:src/coevolve-sketch.pde][coevolve-sketch.pde]].  Both files use the
+[[file:src/collector/][collector/]] IXM library for communicating results back to a central
+source.
 
 *** Representation and Fitness
 This approach evolves individuals which are represented as variable
@@ -222,13 +224,46 @@ desirable for the IXM environment.
   incorporated /on the fly/
 - the system degrades gracefully as boards are removed from the system
 
+** Experimental Methodology
+All experiments were run using the following methodology.  A laptop
+side [[http://www.ruby-lang.org/en/][Ruby]] script (either [[file:src/experimenter.rb][experimenter.rb]] or [[file:src/coexperimenter.rb][coexperimenter.rb]])
+communicates with an attached group of IXM boards using the [[http://github.com/mixonic/libixm][libixm]]
+Ruby library and the =sfbprog= command distributed with the core IXM
+software.  The Ruby scripts take a series of parameters and for each
+combination they
+1) input parameters to the boards
+2) initiating execution
+3) collect and save raw data output by the boards
+4) timeout overrunning experiments
+5) reset the boards with new parameters
+
+The scripts ran in this setup for periods of 30 minutes to close to 30
+hours at a time.  The scripts were executed using the [[http://www.gnu.org/software/screen/][gnu screen]]
+program to allow persistent execution while logged out of the
+computer.
+
+The boards reported all results using the [[file:src/collector/][collector/]] IXM library.  The
+collector library allows each board in a group to report parameters
+back to a central "collector" appending a "path" to the returned
+results.  The path can be used to uniquely identify the board and give
+it coordinates in the 2D geometry of the board layout.
+
+All graphs generated as part of this report used the data as saved by
+the above Ruby scripts along with the [[file:src/group.rb][group.rb]] and [[file:src/board.rb][board.rb]] scripts.
+These scripts translated the raw data into 2D information in a form
+suitable for input to [[http://www.gnuplot.info/][gnuplot]].
+
 ** Results
+*** GP Parameters
+*** Sub-populations and Sharing
+*** Layout
+*** Coevolution
 ** Future Work
 - meta-GP
 - taking and giving boards
 - splitting up the fitness space across the boards
 
-** Reproduction/Expansion of this work
+** Reproduction and Expansion of this work
    :PROPERTIES:
    :CUSTOM_ID: reproduction
    :END:
