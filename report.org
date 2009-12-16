@@ -235,8 +235,13 @@ desirable for the IXM environment.
 
 * Data Analysis
 ** basic GP parameters
-just to show that mutation and crossover actually help, and to justify
-the choices used in later experiments
+
+Both mutation and breeding have improve the runtime of the GP.
+However it seems that mutation is move effective for easier problems
+while breeding is more effective for harder problems.
+
+#+Caption: runtime by GP parameters
+[[file:graphs/gp-params.svg]]
 
 ** GP visualization
 evo-individuals and coevo-individuals
@@ -342,6 +347,101 @@ many data points, maybe a best-fit line w/R
 *** line vs. eight
 *** evo vs. coevo
 ** tools
+*** GP parameters
+
+Collect results from the GP parameters run in =./raw/gp-params=
+
+#+srcname: gp-params_results_setup
+#+begin_src ruby :results output raw :exports code
+  # each instance holds the information from one run
+  class Result
+    attr_accessor :s, :m, :b, :g, :raw
+    def initialize(s, m, b, g)
+      self.s = s; self.m = m; self.b = b; self.g = g
+    end
+    def counts
+      self.raw.split("\n").
+        map{|l| [Float($1), Float($2)] if l.match(/([\.\d]+)[ \t]([\.\d]+)/)}.compact
+    end
+    def runtime() self.counts.size end
+    def average
+      if self.runtime > 0
+        self.counts.inject(0){ |sum, n| sum + n[1] } / self.runtime
+      else
+        -1
+      end
+    end
+  end
+  
+  base = "./raw/gp-params/"
+  results = Dir.entries(base).map do |e|
+    if e.match(/r_s.(\d+)_m.(\d+)_b.(\d+)_i.(\d+)_g.(\d+).(\d+)/)
+      r = Result.new($1, $2, $3, Float("#{$5}.#{$6}"))
+      r.raw = File.read(File.join(base, e))
+      r
+    end
+  end.compact
+#+end_src
+
+#+srcname: gp-params_results_by_goal
+#+begin_src ruby :results raw output :exports code :noweb
+  # <<gp-params_results_setup>>
+  # print out averaged over 5 goal runs
+  puts "|sharing|mutation|breeding|goal|runtime|average fitness|"
+  puts "|--------"
+  runtime = 0; average = 0
+  results.each do |r|
+    goal_num  = r.g.to_s.split(".")[0]
+    goal_time = r.g.to_s.split(".")[1]
+    runtime  += r.runtime
+    average  += r.average
+    if goal_time == "4"
+      runtime = runtime / 5
+      average = average / 5
+      puts "|"+[:s, :m, :b].map{ |meth| r.send(meth).to_s}.join("|")+
+        "|#{goal_num}|#{runtime}|#{average}|"
+      runtime = 0
+      average = 0
+    end
+  end
+#+end_src
+
+gp-param results in tabular form
+
+#+results: gp-params_results_by_goal
+| sharing | mutation | breeding | goal | runtime |  average fitness |
+|---------+----------+----------+------+---------+------------------|
+|       0 |       10 |       10 |    0 |       9 | 4049.28409090909 |
+|       0 |       10 |      100 |    0 |      14 | 2060.36547619048 |
+|       0 |      100 |      100 |    0 |     101 | 2529.54963621051 |
+|       0 |      100 |       10 |    0 |     132 | 2909.66486823494 |
+|       0 |       10 |       10 |    1 |      42 | 266.851231300345 |
+|       0 |      100 |       10 |    1 |     141 | 139.570506458541 |
+|       0 |       10 |      100 |    1 |     264 | 99.7771832410837 |
+|       0 |      100 |      100 |    1 |     303 | 270.617550373458 |
+
+#+tblname: gp-params_results
+| goal | m.10 b.10 | m.10 b.100 | m.100 b.10 | m.100 b.100 |
+|------+-----------+------------+------------+-------------|
+|    1 |         9 |         14 |        132 |         101 |
+|    2 |        42 |        264 |        141 |         303 |
+
+generate graph of gp-param results (for some reason gnuplot SVG output
+only works gnuplot is called twice)
+#+begin_src gnuplot :var data=gp-params_results :exports none :file graphs/gp-params.svg
+  set boxwidth 0.9 relative
+  set title 'run times by GP params'
+  set xlabel 'problems'
+  set xtics ("xxx**xxxx***+" 0, "7xxx**+" 1)
+  set ylabel 'runtimes (seconds)'
+  set style data histograms
+  set style fill solid 1.0 border -1
+  plot data using 2 title 'm.10 b.10', '' using 3 title 'm.10 b.100', '' using 4 title 'm.100 b.10', '' using 5 title 'm.100 b.100'
+#+end_src
+
+#+results:
+[[file:graphs/gp-params.svg]]
+
 *** ingest a directory of results into ruby
 ingest a directories worth of run results and return a list of Datum
 #+source: ingest
@@ -440,7 +540,6 @@ wider range
   set grid
   plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
 #+end_src
-
 
 *** narrow down to a specific goal
 #+begin_src ruby
