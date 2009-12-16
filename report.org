@@ -1,5 +1,5 @@
 #+TITLE: Genetic Programming on IXM
-#+OPTIONS: num:nil ^:nil
+#+OPTIONS: num:nil ^:nil TeX:t LaTeX:t
 #+LaTeX_CLASS: normal
 #+STARTUP: hideblocks
 
@@ -305,7 +305,112 @@ second population did increase the effectiveness of the GP.
 #+Caption: sharing individuals across two boards
 [[file:graphs/sharing.svg]]
 
-*** Layout
+*** Sharing and Layout
+Next the effects of different sharing rates run over a large group of
+15 boards was investigated.  The sharing experiments were run over two
+different board layouts -- a straight line and an altered figure
+eight.  The results for each layout are presented as well as a
+comparison between the two.  In all experiments below the following
+three goals functions were used.  Each GP parameter combination was
+allowed 10 minutes to attempt to fit each function.  10 runs were
+performed in each setup and all reported results are the average of
+the 10 runs.
+
+**** line
+The runtimes for each sharing rate by goal.  All sharing rates are
+reported in milliseconds.  In general the results seem to illustrate
+the a sharing rate of 1000 milliseconds performs best.
+***** "xxx**xxxx***+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|        10000 |               3.8355099 |
+|         1000 |               3.2090558 |
+|          100 |               3.2239733 |
+
+***** "7xxx**+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|        10000 |               4.9986461 |
+|         1000 |               3.1983512 |
+|          100 |               2.1230925 |
+
+***** "xs55+55+**"
+This goal is equivalent to $100 sine(x)$ which is not possible for our
+GP individuals to match as they do not have the sine function as one
+of their operators.  The average best score for each sharing rate is
+reported.
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|        10000 |                 invalid |
+|         1000 |                 156.743 |
+|          100 |                 164.008 |
+
+the reason that the above results for 10000 are labeled "invalid" is
+that is appears that some boards did not successfully have their goal
+reset from "7xxx**+" to "xs55+55+**" in these runs, so no data is
+available.
+
+**** eight
+The runtimes for each sharing rate by goal.  All sharing rates are
+reported in milliseconds.  In general the results seem to illustrate
+the a sharing rate of 1000 milliseconds performs best.
+***** "xxx**xxxx***+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|        10000 |               3.6102906 |
+|         1000 |               2.8806907 |
+|          100 |               6.4068757 |
+
+***** "7xxx**+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|        10000 |              24.0118271 |
+|         1000 |               3.1030883 |
+|          100 |               1.9693912 |
+
+***** "xs55+55+**"
+This goal is equivalent to $100 sine(x)$ which is not possible for our
+GP individuals to match as they do not have the sine function as one
+of their operators.  The average best score for each sharing rate is
+reported.
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|        10000 |        255.311111111111 |
+|         1000 |        183.966666666667 |
+|          100 |        253.433333333333 |
+
+**** video results
+The following videos are provided to better illustrate the dynamic
+fitness levels across multiple boards during the previous runs.  In
+these videos each board is represented as a bar in a 3d histogram.
+The placement of the bars mirrors the physical placement of the boards
+and the height of the bar is equal to the most fit individual on the
+board.  Recall that fitness is calculated as the *difference* between
+an individual and the goal, so a lower fitness score is better.
+
+*note*: if the following don't begin playing automatically they can be
+downloaded from the following [fn:4] [fn:5] [fn:6].  On a mac you may
+need to use [[http://www.videolan.org/vlc/][VLC]] if your default video player doesn't understand these
+files.
+
+#+Caption: Formation: line Goal: "xxx**xxxx***+" Run: 0
+[[file:videos/evo_line_100_0_0.mp4]]
+
+#+Caption: Formation: line Goal: "7xxx**+" Run: 1
+[[file:videos/evo_line_100_1_1.mp4]]
+
+#+Caption: Formation: line Goal: "xs55+55+**" Run: 1
+[[file:videos/evo_line_100_2_1.mp4]]
+
+#+Caption: Formation: eight Goal: "xxx**xxxx***+" Run: 1
+[[file:videos/evo_eight_100_0_1.mp4]]
+
+#+Caption: Formation: eight Goal: "7xxx**+" Run: 1
+[[file:videos/evo_eight_100_1_1.mp4]]
+
+#+Caption: Formation: eight Goal: "xs55+55+**" Run: 1
+[[file:videos/evo_eight_100_2_1.mp4]]
+
 *** Coevolution
 
 ** Future Work
@@ -402,8 +507,8 @@ many data points, maybe a best-fit line w/R
 **** evo-line
 ***** Goal 0
 
-
 ***** Goal 1
+
 ***** Goal 2
 
 **** coevo-eight
@@ -823,4 +928,10 @@ conversion into a movie
 [fn:2] http://reproducibleresearch.net/index.php/Main_Page
 
 [fn:3] http://livingcomputation.com/rpc/
+
+[fn:4]
+
+[fn:5]
+
+[fn:6]   
 

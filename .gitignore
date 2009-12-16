@@ -1,6 +1,7 @@
 # get rid of mac cruft
 .DS_Store
 
+ltxpng/*
 data/*
 graphs/*.png
 graphs/*.svg
