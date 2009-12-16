@@ -315,6 +315,13 @@ three goals functions were used.  Each GP parameter combination was
 allowed 10 minutes to attempt to fit each function.  10 runs were
 performed in each setup and all reported results are the average of
 the 10 runs.
+
+#+Caption: line layout
+[[file:data/line.png]]
+
+#+Caption: figure eight layout
+[[file:data/figure-eight.png]]
+
 **** line
 The runtimes for each sharing rate by goal.  All sharing rates are
 reported in milliseconds.  In general the results seem to illustrate
@@ -444,7 +451,7 @@ board.  Recall that fitness is calculated as the *difference* between
 an individual and the goal, so a lower fitness score is better.
 
 *note*: If the following don't begin playing automatically they can be
-download from [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/videos][here]] and saved to your desktop.  On a mac you may need
+download from [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/gp4ixm-report/videos][here]] and saved to your desktop.  On a mac you may need
 to use [[http://www.videolan.org/vlc/][VLC]] if your default video player doesn't understand these
 files.
 
