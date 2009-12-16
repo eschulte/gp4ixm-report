@@ -456,14 +456,12 @@ to use [[http://www.videolan.org/vlc/][VLC]] if your default video player doesn'
 files.
 
 #+begin_latex
-  \includemovie[
-    poster,
-    text={\small(Loading video)}
-  ]{6cm}{6cm}{videos/evo_line_100_2_1.mp4}
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/evo_line_100_0_0.mpg}
+  \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
+  \end{figure}
 #+end_latex
-
-#+Caption: Formation: line Goal: "xxx**xxxx***+" Run: 0
-[[file:videos/evo_line_100_0_0.mp4]]
 
 #+begin_html 
   <div class="figure">
@@ -472,8 +470,13 @@ files.
   </div>
 #+end_html
 
-#+Caption: Formation: line Goal: "7xxx**+" Run: 1
-[[file:videos/evo_line_100_1_1.mp4]]
+#+begin_latex
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_1_1.mpg}
+  \caption{Formation: line Goal: "7xxx**+" Run: 1}
+  \end{figure}
+#+end_latex
 
 #+begin_html 
   <div class="figure">
@@ -482,8 +485,13 @@ files.
   </div>
 #+end_html
 
-#+Caption: Formation: line Goal: "xs55+55+**" Run: 1
-[[file:videos/evo_line_100_2_1.mp4]]
+#+begin_latex
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_2_1.mpg}
+  \caption{Formation: line Goal: "xs55+55+**" Run: 1}
+  \end{figure}
+#+end_latex
 
 #+begin_html 
   <div class="figure">
@@ -492,8 +500,13 @@ files.
   </div>
 #+end_html
 
-#+Caption: Formation: eight Goal: "xxx**xxxx***+" Run: 1
-[[file:videos/evo_eight_100_0_1.mp4]]
+#+begin_latex
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_0_1.mpg}
+  \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
+  \end{figure}
+#+end_latex
 
 #+begin_html 
   <div class="figure">
@@ -502,8 +515,13 @@ files.
   </div>
 #+end_html
 
-#+Caption: Formation: eight Goal: "7xxx**+" Run: 1
-[[file:videos/evo_eight_100_1_1.mp4]]
+#+begin_latex
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_1_1.mpg}
+  \caption{Formation: eight Goal: "7xxx**+" Run: 1}
+  \end{figure}
+#+end_latex
 
 #+begin_html 
   <div class="figure">
@@ -512,21 +530,19 @@ files.
   </div>
 #+end_html
 
-#+Caption: Formation: eight Goal: "xs55+55+**" Run: 1
-[[file:videos/evo_eight_100_2_1.mp4]]
+#+begin_latex
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_2_1.mpg}
+  \caption{Formation: eight Goal: "xs55+55+**" Run: 1}
+  \end{figure}
+#+end_latex
 
 #+begin_html 
   <div class="figure">
     <p><embed src="./videos/evo_eight_100_2_1.mpg" autostart="false"/></p>
     <p>Formation: eight Goal: "xs55+55+**" Run: 1</p>
   </div>
-#+end_html
-
-#+begin_html 
-<div class="figure">
-<p><embed src="./videos/evo_eight_100_2_1.mpg" autostart="false"/></p>
-<p>Formation: eight Goal: "xs55+55+**" Run: 1</p>
-</div>
 #+end_html
 
 *** Coevolution
@@ -562,7 +578,8 @@ could not parse.  Future sections with this same problem will be
 indicated as /insufficient data/.
 
 ***** "xs55+55+**"
-/insufficient data/
+
+ /insufficient data/
 
 **** figure eight
 The runtimes for each sharing rate by goal.  All sharing rates are
@@ -583,25 +600,86 @@ the a sharing rate of 1000 milliseconds performs best.
 |         1000 |                6651.732 |
 
 ***** "xs55+55+**"
-/insufficient data/
+
+ /insufficient data/
 
 **** videos
 same disclaimer/instructions as above...
 
-#+Caption: Formation: line Goal: "xxx**xxxx***+" Run: 0
-[[file:videos/coevo_line_10000_0_1.mp4]]
+#+begin_latex 
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/coevo_line_10000_0_1.mpg}
+  \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
+  \end{figure}
+#+end_latex
 
-#+Caption: Formation: line Goal: "7xxx**+" Run: 1
-[[file:videos/coevo_line_10000_1_1.mp4]]
+#+begin_html 
+  <div class="figureg>
+    <p><embed src="./videos/coevo_line_10000_0_1.mpg" autostart="false"</p>
+    <p>Formation: line Goal: "xxx**xxxx***+" Run: 0</p>
+  </div>
+#+end_html
 
-#+Caption: Formation: line Goal: "xs55+55+**" Run: 1
-[[file:videos/coevo_line_10000_2_1.mp4]]
+#+begin_latex 
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_1_1.mpg}
+  \caption{Formation: line Goal: "7xxx**+" Run: 1}
+  \end{figure}
+#+end_latex
 
-#+Caption: Formation: eight Goal: "xxx**xxxx***+" Run: 1
-[[file:videos/coevo_eight_10000_0_1.mp4]]
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/coevo_line_10000_1_1.mpg" autostart="false"</p>
+    <p>Formation: line Goal: "7xxx**+" Run: 1</p>
+  </div>
+#+end_html
 
-#+Caption: Formation: eight Goal: "7xxx**+" Run: 1
-[[file:videos/coevo_eight_10000_1_1.mp4]]
+#+begin_latex 
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_2_1.mpg}
+  \caption{Formation: line Goal: "xs55+55+**" Run: 1}
+  \end{figure}
+#+end_latex
+
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/coevo_line_10000_2_1.mpg" autostart="false"</p>
+    <p>Formation: line Goal: "xs55+55+**" Run: 1</p>
+  </div>
+#+end_html
+
+#+begin_latex 
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_0_1.mpg}
+  \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
+  \end{figure}
+#+end_latex
+
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/coevo_eight_10000_0_1.mpg" autostart="false"</p>
+    <p>Formation: eight Goal: "xxx**xxxx***+" Run: 1</p>
+  </div>
+#+end_html
+
+#+begin_latex 
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_1_1.mpg}
+  \caption{Formation: eight Goal: "7xxx**+" Run: 1}
+  \end{figure}
+#+end_latex
+
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/coevo_eight_10000_1_1.mpg" autostart="false"</p>
+    <p>Formation: eight Goal: "7xxx**+" Run: 1</p>
+  </div>
+#+end_html
 
 ** Conclusions
 A subpopulation GP system was shown to be effective in the IXM
@@ -615,7 +693,7 @@ $\frac{runtime}{number\,of\,boards}$ was not achieved.
 In normal evolution the with mutation and crossover rates of 10
 milliseconds or 100 Hz a sharing rate of 1000 milliseconds or 1 Hz was
 shown to outperform sharing rates of 100 milliseconds 10 Hz and 10000
-milliseconds \frac{1}{{10}$ Hz.  This was true in both the straight
+milliseconds $\frac{1}{10}$ Hz.  This was true in both the straight
 line board configuration and the figure eight configuration.  This
 indicates that a sharing rate between boards of roughly 100 times the
 mutation and crossover rate is near ideal.

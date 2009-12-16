@@ -1,4 +1,4 @@
-% Created 2009-12-15 Tue 21:36
+% Created 2009-12-16 Wed 10:35
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -13,7 +13,7 @@
 
 \title{Genetic Programming on IXM}
 \author{Eric}
-\date{15 December 2009}
+\date{16 December 2009}
 
 \begin{document}
 
@@ -37,7 +37,7 @@ distributed nature of subpopulation GP is shown to be a natural fit
 for the IXM environment and directions for future work are discussed.
 In the spirit of Reproducible Research\footnote{\href{http://livingcomputation.com/rpc/}{http://livingcomputation.com/rpc/} }, all source code and
 experimental data referenced in this work is made available to the
-reader (see \hyperref[sec-1.7]{reproduction}) in the hopes of encouraging further work in
+reader (see \hyperref[sec-1.8]{reproduction}) in the hopes of encouraging further work in
 this area.
 
 \subsection*{Illuminato X Machina -- telos and construction}
@@ -61,7 +61,7 @@ One goal of the boards is to enable experimentation with software
 developed under a new set of assumptions.  On a grid of IXM boards the
 central single CPU, the shared memory and the global clock of a
 traditional computer are relinquished in favor of a dynamic set of
-loosely coupled peers, each equipped with it's own personal clock
+loosely coupled peers, each equipped with its own personal clock
 processor and memory.  In such an environment robustness of operation
 is achieved through the abandonment of privileged points in space and
 time and the duplication of functionality across a largely homogeneous
@@ -305,6 +305,18 @@ allowed 10 minutes to attempt to fit each function.  10 runs were
 performed in each setup and all reported results are the average of
 the 10 runs.
 
+\begin{figure}[htb]
+\centering
+\includegraphics[width=10em]{data/line.png}
+\caption{line layout}
+\end{figure}
+
+\begin{figure}[htb]
+\centering
+\includegraphics[width=10em]{data/figure-eight.png}
+\caption{figure eight layout}
+\end{figure}
+
 \begin{itemize}
 
 \item line\\
@@ -374,9 +386,26 @@ that is appears that some boards did not successfully have their goal
 reset from ``7xxx**+'' to ``xs55+55+**'' in these runs, so no data is
 available.
 
+although no individuals exactly matched $100 sine(x)$ some did come
+close, most notably the following whose RPN representation of
+\texttt{x2*x6-/3x7+*x3x-*/+7*} expands to the following algebraic expression
+\texttt{((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)} which
+does a very good job of matching the target function over the test
+values of x with a best score of 136.07.
+
+
+
+\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_line_2_best.svg}{file:graphs/evo\_line\_2\_best.svg}
+
+although globally the fit is less impressive
+
+
+
+\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_line_2_best_wide.svg}{file:graphs/evo\_line\_2\_best\_wide.svg}
+
 \end{itemize} % ends low level
 
-\item eight\\
+\item figure eight\\
 \label{sec-1.5.3.2}
 
 The runtimes for each sharing rate by goal.  All sharing rates are
@@ -438,6 +467,23 @@ reported.
 
 
 
+although no individuals exactly matched $100 sine(x)$ some did come
+close, most notably the following whose RPN representation of
+\texttt{0757x/3-x+3x-/**x/x+x*} expands to the following algebraic expression
+\texttt{((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)} which
+does a very good job of matching the target function over the test
+values of x with a score of 254.35.
+
+
+
+\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_eight_2_best.svg}{file:graphs/evo\_eight\_2\_best.svg}
+
+although globally the fit is less impressive
+
+
+
+\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_eight_2_best_wide.svg}{file:graphs/evo\_eight\_2\_best\_wide.svg}
+
 \end{itemize} % ends low level
 
 \item video results\\
@@ -451,44 +497,348 @@ and the height of the bar is equal to the most fit individual on the
 board.  Recall that fitness is calculated as the \textbf{difference} between
 an individual and the goal, so a lower fitness score is better.
 
-\textbf{note}: if the following don't begin playing automatically they can be
-saved to your desktop and played using a video player.  On a mac you
-may need to use \href{http://www.videolan.org/vlc/}{VLC} if your default video player doesn't understand
-these files.
+\textbf{note}: If the following don't begin playing automatically they can be
+download from \href{http://cs.unm.edu/~eschulte/classes/cs591-rpc/gp4ixm-report/videos}{here} and saved to your desktop.  On a mac you may need
+to use \href{http://www.videolan.org/vlc/}{VLC} if your default video player doesn't understand these
+files.
 
-\includemovie[
-  poster,
-  text={\small(Loading video)}
-]{6cm}{6cm}{videos/evo_line_100_2_1.mp4}
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/evo_line_100_0_0.mpg}
+  \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_1_1.mpg}
+  \caption{Formation: line Goal: "7xxx**+" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_2_1.mpg}
+  \caption{Formation: line Goal: "xs55+55+**" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_0_1.mpg}
+  \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_1_1.mpg}
+  \caption{Formation: eight Goal: "7xxx**+" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_2_1.mpg}
+  \caption{Formation: eight Goal: "xs55+55+**" Run: 1}
+  \end{figure}
+
 
 \end{itemize} % ends low level
 \subsubsection*{Coevolution}
 \label{sec-1.5.4}
 
-
-\subsection*{Future Work}
-\label{sec-1.6}
+Coevolution was implemented by evolving a Genetic Algorithm (GA) over
+the x values to be checked.  The coevolution task was significantly
+more difficult than the related evolutionary task as a much wider
+range of possible x values was used.  While all pure evolution
+experiments were run over the static range of integers between 0 and
+10 the coevolution x values ranged from -100 to 100.  Each x-range
+coevolution ``individual'' consisted of 5 x values taken from this
+range.  Mutation of coevolution individuals consisted of changing an x
+value by +-1 with a chance of 1/5.  Single point crossover was used to
+breed two coevolution individuals.  Since coevolution frequently found
+no perfect solution only the average best score is reported.
 
 \begin{itemize}
-\item meta-GP
-\item taking and giving boards
-\item splitting up the fitness space across the boards
+
+\item line\\
+\label{sec-1.5.4.1}
+
+The runtimes for each sharing rate by goal.  All sharing rates are
+reported in milliseconds.  In general the results seem to illustrate
+the a sharing rate of 10000 milliseconds performs best.
+\begin{itemize}
+
+\item "xxx**xxxx***+"\\
+\label{sec-1.5.4.1.1}
+
+
+\begin{center}
+\begin{tabular}{rr}
+ sharing rate  &  ave. time to completion  \\
+\hline
+       100000  &                29366.703  \\
+        10000  &                      5.0  \\
+         1000  &                     10.8  \\
+\end{tabular}
+\end{center}
+
+
+
+
+\item "7xxx**+"\\
+\label{sec-1.5.4.1.2}
+
+No results are reported for this range, as many runs did not return
+any results.  The only plausible reason for this result is that the
+reported scores for these runs were so large (bad) as to overflow the
+c++ \texttt{double} type, returning non-integer values which the Ruby scripts
+could not parse.  Future sections with this same problem will be
+indicated as \emph{insufficient data}.
+
+
+\item "xs55+55+**"\\
+\label{sec-1.5.4.1.3}
+
+
+ \emph{insufficient data}
+
+\end{itemize} % ends low level
+
+\item figure eight\\
+\label{sec-1.5.4.2}
+
+The runtimes for each sharing rate by goal.  All sharing rates are
+reported in milliseconds.  In general the results seem to illustrate
+the a sharing rate of 1000 milliseconds performs best.
+\begin{itemize}
+
+\item "xxx**xxxx***+"\\
+\label{sec-1.5.4.2.1}
+
+
+\begin{center}
+\begin{tabular}{rr}
+ sharing rate  &  ave. time to completion  \\
+\hline
+       100000  &                89985.059  \\
+        10000  &                   16.624  \\
+         1000  &                 5986.421  \\
+\end{tabular}
+\end{center}
+
+
+
+
+\item "7xxx**+"\\
+\label{sec-1.5.4.2.2}
+
+
+\begin{center}
+\begin{tabular}{rr}
+ sharing rate  &  ave. time to completion  \\
+\hline
+       100000  &                    9.075  \\
+        10000  &                    10.81  \\
+         1000  &                 6651.732  \\
+\end{tabular}
+\end{center}
+
+
+
+
+\item "xs55+55+**"\\
+\label{sec-1.5.4.2.3}
+
+
+ \emph{insufficient data}
+
+\end{itemize} % ends low level
+
+\item videos\\
+\label{sec-1.5.4.3}
+
+same disclaimer/instructions as above\ldots{}
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/coevo_line_10000_0_1.mpg}
+  \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_1_1.mpg}
+  \caption{Formation: line Goal: "7xxx**+" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_2_1.mpg}
+  \caption{Formation: line Goal: "xs55+55+**" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_0_1.mpg}
+  \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
+  \end{figure}
+
+
+  \begin{figure}
+  \centering
+    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_1_1.mpg}
+  \caption{Formation: eight Goal: "7xxx**+" Run: 1}
+  \end{figure}
+
+
+\end{itemize} % ends low level
+\subsection*{Conclusions}
+\label{sec-1.6}
+
+A subpopulation GP system was shown to be effective in the IXM
+environment.  The GP operators of mutation and crossover were both
+shown to improve the effectiveness of the GP to varying degrees
+depending on the difficulty of the target problem.  Distribution of
+the GP system over multiple IXM boards was shown to improve the speed
+with which the GP solved problems although the ideal speedup of
+$\frac{runtime}{number\,of\,boards}$ was not achieved.
+
+In normal evolution the with mutation and crossover rates of 10
+milliseconds or 100 Hz a sharing rate of 1000 milliseconds or 1 Hz was
+shown to outperform sharing rates of 100 milliseconds 10 Hz and 10000
+milliseconds $\frac{1}{10}$ Hz.  This was true in both the straight
+line board configuration and the figure eight configuration.  This
+indicates that a sharing rate between boards of roughly 100 times the
+mutation and crossover rate is near ideal.
+
+There was no significant or consistent difference in performance
+between the two board layouts of a figure eight and a straight line.
+While it is possible that further experimentation with more tightly
+packed formations could reveal some statistically significant
+difference in layout performance this work indicates that any such
+difference would be negligible.
+
+Coevolution was added to the existing GP system.  While the
+coevolutionary runs performed poorly it is not immediately clear if
+this is due to an inherent feature of coevolution in this domain, to a
+failure of implementation, or to the fact that the problem space of
+the coevolutionary runs was so much large than that of the initial GP
+runs.  In those coevolutionary runs where reliable numbers were
+returned the line formation seemed to outperform the figure eight
+formation, and the middle tested sharing value of 10000 milliseconds
+or 100 times the evolutionary individual sharing rate seemed to
+perform best.
+
+\subsection*{Future Work}
+\label{sec-1.7}
+
+This work could be expanded upon in a number of interesting manners.
+Each of the following sketches a possible path for future work.
+
+\subsubsection*{meta-evolution}
+\label{sec-1.7.1}
+
+The GP parameters of mutation, crossover, and sharing rate can be set
+on a board-by-board level.  With a large collection of boards it would
+be plausible to vary the GP parameters with each board and perform
+meta-evolution of the GP parameters simultaneously with the GP.
+
+This work has a number of interesting features.
+\begin{itemize}
+\item The meta-evolutionary system would have a one-to-one mapping between
+  individuals and boards.  This means that each individual in the
+  population has a static physical address and can only communicate
+  with its physical neighbors.  This limitation means that no global
+  GP operations (e.g. best/worst fit or random selection of
+  individuals) could be applied to the boards.  Rather the GP would
+  need to be distributed s.t. each GP action (crossover, mutation,
+  selection, death) acts on a limited horizon.
+\item When applied over a running GP system this meta-evolution could help
+  to refine parameters more quickly than the exhaustive battery of
+  runs strategy used in much of this report.
+\item When applied over a running GP system it is plausible that the
+  meta-evolution would adapt the GP parameters to fit different stages
+  of the base GPs evolution.  For example it may emphasize exploratory
+  operations in the early stages and then slowly switch to more
+  exploitative operations in that later stages of a run.
+\end{itemize}
+
+\subsubsection*{dynamic board group}
+\label{sec-1.7.2}
+
+While both the design of our GP system and information trials indicate
+that the setup would be robust to a dynamic board environment where
+boards are being added and removed from the group mid-run, we have
+presented no experimental evidence of these claims.  It would be a
+relatively simple extension of our current experimentation environment
+GP to allow experimentation in this area.  The two new scenarios would
+each require a small addition to the current software.
+
+\begin{description}
+\item[board remove] In this scenario a board is removed mid-run.  Rather
+     than having a human experimenter physically disconnect boards
+     during the run, the ability of the boards to turn power off to
+     their neighbors could be used by the computer-side Ruby scripts
+     to simulate neighbor loss through power offs.
+\item[board addition] In this scenario a new board would be added
+     mid-run.  To make this approach practical the current goal and
+     possibly the current individual population would need to be
+     shared with any new boards after they connect and/or after they
+     have downloaded the GP sketch.  This example \href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/src/code-flow-sketch.pde}{code-flow-sketch.pde}
+     provided by Prof. Ackley demonstrates the relevant core software
+     functions required by a newly added board for acting immediately
+     after it has had its software updated.  Alternately such a data
+     pull could simply be added to the startup routine for changing
+     the default behavior of all newly booted boards to that of
+     goal/individual requests.
+\end{description}
+
+\subsubsection*{splitting up the fitness space across the boards}
+\label{sec-1.7.3}
+
+By partitioning the fitness space across the boards in a connected
+group it may be possible to find partitions that out perform either
+the default choice of testing over the entire space on each board.
+One exciting aspect of this expansion is its incorporation of the
+physical properties of the group of boards into the GP space.
+
+For example, the fitness function used in this work of comparing
+individuals against a target function at specific values of x could be
+partitioned by assigning each board its own range of x values.  There
+could be many interesting properties of this approach.
+\begin{itemize}
+\item investigate whether contiguous x values assigned to neighboring
+  boards is more or less effective than random assignment of ranges of
+  x values
+\item evaluating an even stricter direct mapping of the 2D space in which
+  the boards are arrayed to the 1D space of possible x values, such
+  that, the values present on a boards are strictly a result of the
+  physical placement of the board in the group
+\item evaluating the variety of different 2D board layouts in combination
+  with various x-value partitions
 \end{itemize}
 
 \subsection*{Reproduction and Expansion of this work}
-\label{sec-1.7}
+\label{sec-1.8}
 \label{reproduction}
 
+Both the pdf and html versions of this report were generated using
+\href{http://www.gnu.org/software/emacs/}{Emacs} \href{http://orgmode.org/}{Org-mode} and \href{http://orgmode.org/worg/org-contrib/babel/org-babel.php}{Org-babel}.  These tools allow source code and data
+to be interleaved with prose in the same documents.  The source
+documents as well as all supporting files required to re-create this
+report can be obtained as a \texttt{.tar} or \texttt{.zip} download or using \href{http://git-scm.com/}{git}
+from \href{http://github.com/eschulte/gp4ixm-report}{http://github.com/eschulte/gp4ixm-report}.  A single massive
+\texttt{.tar} file including all graphs figures and pictures can be
+downloaded from \hyperref[somewhere]{here}.
 
+See \href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/data-analysis.org}{data-analysis} for a collection of the tools used in collecting and
+analyzing experimental results.
 
-
-
-
-[fn:4]
-
-[fn:5]
-
-[fn:6]   
 
 
 
