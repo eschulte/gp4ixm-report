@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Genetic Programming on IXM</title>
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2009-12-16 11:05:10 MST"/>
+<meta name="generated" content="2009-12-16 12:11:29 MST"/>
 <meta name="author" content="Eric Schulte"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -154,9 +154,9 @@ this area.
 processor, memory, a button, led lights, hardware timers, a power rail
 and four connectors arrayed around the perimeter of the board.
 Although each board is in essence a small self-contained computer they
-are intended to be used in groups.  When multiple boards are connected
-through they communicate and share power with their neighbors through
-their side connections.
+are intended to be used in groups.  When boards are connected through
+their side connections they communicate and share power with their
+neighbors.
 </p>
 
 <div class="figure">
@@ -217,12 +217,11 @@ the RPN stack machine facilitated quick development on the IXM boards.
 
 
 <p>
-The only difference between the individual strings and the possible
-goal strings is the inclusion of the 'sine' operator in the goal
-strings.  This unbalance encourages interesting behavior of the
-evolving individuals as they tackle the difficult task of
-approximating a trigonometric function using arithmetic operators --
-in effect evolving towards a Taylor Series.
+The only difference between the individual representation strings and
+the target strings is the inclusion of the 'sine' operator in the
+target strings.  This unbalance encourages interesting behavior of the
+individuals as attempt to approximate a trigonometric function using
+arithmetic operators &ndash; in effect evolving towards a Taylor Series.
 </p>
 </div>
 
@@ -259,8 +258,9 @@ ind.representation[0] = possibilities[random(15)];
 <dt>mutation</dt><dd>
 An modified copy is made of an existing individual.
 First an exact copy is made, then each step of the copies RPN
-string is mutated with a probability equal to <img src="ltxpng/report_90898d0e285aad95a761bc47b6700fe4a6ddf098.png"/>
-where <img src="ltxpng/report_1565ddbb193957c11218da62ed85d86347772180.png"/> is a parameter of the GP system.
+string is mutated with a probability equal to
+<img src="ltxpng/report_8a06bb5c59292d94d5251c4b7a123beec2a16484.png"/> where <img src="ltxpng/report_1565ddbb193957c11218da62ed85d86347772180.png"/> is a parameter
+of the GP system.
 
 
 
@@ -274,7 +274,7 @@ where <img src="ltxpng/report_1565ddbb193957c11218da62ed85d86347772180.png"/> is
 
 </dd>
 <dt>crossover</dt><dd>
-Single point crossover is used to combine to existing
+Single point crossover is used to combine two existing
 individuals to generate a new individual.  First a crossover
 point is picked for each parent, then the first half from one
 parent is combined with the second half from the other parent as
@@ -302,6 +302,25 @@ child.representation[index] = <span style="color: #A5C261;">'\0'</span>;
 <dt>sharing</dt><dd>
 During sharing an individual is selected and is "shared"
 with all of the IXM board's neighbors.
+</dd>
+<dt>tournament selection</dt><dd>
+Whenever an individual is selected from the
+population for one of the above operations a "tournament" is
+held.  In tournament selection <img src="ltxpng/report_03fe565e1b1ab42b693826d4e4f83f26b3fbb626.png"/> individuals are
+selected from the population at random and the fittest of these
+individuals "wins" the tournament and is selected.
+
+
+
+<pre class="src src-c++"><span style="color: #CC7833;">for</span>(<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">i</span>=0; i&lt;tournament_size; ++i) {
+  challenger = random(POP_SIZE);
+  <span style="color: #CC7833;">if</span>(pop[challenger].fitness &lt; pop[winner].fitness)
+    winner = challenger;
+}
+</pre>
+
+
+
 
 </dd>
 </dl>
@@ -318,18 +337,18 @@ and should be unsurprising.  Where our system differs from traditional
 GP is in the timing and distribution of operations on the population
 of individuals.  Since one of our goals is uniformity in both space
 and time we discard the notion of a fixed population cycle and instead
-perform all GP operations at constant frequencies.  As such there are
+repeat all GP operations at constant frequencies.  As such there are
 no discrete "stages" or "steps" in our GP.
 </p>
 <p>
-Using hardware timers included on the IXM boards we scheduler the
+Using hardware timers included on the IXM boards we schedule the
 operations of mutation, injection, crossover, and sharing to recur at
 fixed frequencies.  The frequency of these operations are parameters
 of the GP system.  Whenever one of these operations returns a new
 individual (e.g. the product of crossover, or an individual shared by
 a neighbor board) the new individual is incorporated into the
-population and the current worst individual is removed form the
-population.  The only time an individual will be removed from the
+population and the current worst individual in the population is
+removed.  The only time an individual will be removed from the
 population is when it is displaced in this manner.
 </p>
 <p>
@@ -337,8 +356,8 @@ Given the above setup all of the GP operations are constantly acting
 on the population in a semi-stochastic interleaved manner.  No
 randomness is explicitly added to the operation scheduling (although
 this would be sympathetic with our themes) however as the boards
-periodically become too busy pending GP operations are can be delayed
-adding an element of randomness to the system.
+periodically become too busy pending GP operations are delayed adding
+an element of randomness to the system.
 </p>
 </div>
 
@@ -379,7 +398,7 @@ board
 </li>
 <li>
 increasing the number of boards increases the effectiveness of the
-GP system &ndash; following some asymptotic curve
+GP system
 </li>
 <li>
 boards can be added to the GP system during execution and
@@ -399,12 +418,11 @@ the system degrades gracefully as boards are removed from the system
 <h3 id="sec-1.4">Experimental Methodology </h3>
 <div class="outline-text-3" id="text-1.4">
 
-<p>All experiments are run using the following methodology.  A laptop
-side <a href="http://www.ruby-lang.org/en/">Ruby</a> script (either <a href="src/experimenter.rb">experimenter.rb</a> or <a href="src/coexperimenter.rb">coexperimenter.rb</a>)
-communicates with an attached group of IXM boards using the <a href="http://github.com/mixonic/libixm">libixm</a>
-Ruby library and the <code>sfbprog</code> command distributed with the core IXM
-software.  The Ruby scripts take a series of parameters and for each
-combination they
+<p>A laptop side <a href="http://www.ruby-lang.org/en/">Ruby</a> script (either <a href="src/experimenter.rb">experimenter.rb</a> or
+<a href="src/coexperimenter.rb">coexperimenter.rb</a>) communicates with an attached group of IXM boards
+using the <a href="http://github.com/mixonic/libixm">libixm</a> Ruby library and the <code>sfbprog</code> command distributed
+with the core IXM software.  The Ruby scripts take a series of
+parameters and for each combination they
 </p><ol>
 <li>
 input parameters to the boards
@@ -439,7 +457,7 @@ assign it coordinates in the 2D geometry of the board layout.
 <p>
 All graphs generated as part of this report used the collector output
 as saved by the above Ruby scripts along with the <a href="src/group.rb">group.rb</a> and
-<a href="src/board.rb">board.rb</a> scripts.  These scripts translated the raw data into 2D
+<a href="src/board.rb">board.rb</a> scripts.  These scripts translated the raw path data into 2D
 information in a form suitable for input to <a href="http://www.gnuplot.info/">gnuplot</a>.
 </p>
 </div>
@@ -515,13 +533,28 @@ second population did increase the effectiveness of the GP.
 
 <p>Next the effects of different sharing rates run over a large group of
 15 boards was investigated.  The sharing experiments were run over two
-different board layouts &ndash; a straight line and an altered figure
-eight.  The results for each layout are presented as well as a
-comparison between the two.  In all experiments below the following
-three goals functions were used.  Each GP parameter combination was
-allowed 10 minutes to attempt to fit each function.  10 runs were
-performed in each setup and all reported results are the average of
-the 10 runs.
+different board layouts &ndash; a straight line and a near figure eight.
+The results for each layout are presented as well as a comparison
+between the two.  In all experiments below the following three target
+functions were used.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption></caption>
+<colgroup><col align="left" /><col align="left" /><col align="left" />
+</colgroup>
+<thead>
+<tr><th scope="col">Target 0</th><th scope="col">Target 1</th><th scope="col">Target 2</th></tr>
+</thead>
+<tbody>
+<tr><td>"xxx**xxxx***+"</td><td>"7xxx**+"</td><td>"xs55+55+**"</td></tr>
+</tbody>
+</table>
+
+
+<p>
+Each GP parameter combination was allowed 10 minutes to attempt to fit
+each target.  10 runs were performed in each setup and all reported
+results are the average of the 10 runs.
 </p>
 
 <div class="figure">
@@ -691,7 +724,7 @@ reported.
 
 
 <p>
-although no individuals exactly matched <img src="ltxpng/report_a048fc1e1b4d9a6d4aa9b0fcd8a0b319a3b7b376.png"/> some did come
+although no individuals exactly matched <img src="ltxpng/report_c00c978143a8cc6c0e3cc7f142b7bb56fc326694.png"/> some did come
 close, most notably the following whose RPN representation of
 <code>0757x/3-x+3x-/**x/x+x*</code> expands to the following algebraic expression
 <code>((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)</code> which
@@ -937,33 +970,32 @@ with which the GP solved problems although the ideal speedup of
 <img src="ltxpng/report_590cc2c80697c332aed738acb6434ae60aa0cc4a.png"/> was not achieved.
 </p>
 <p>
-In normal evolution the with mutation and crossover rates of 10
+In normal evolution with mutation and crossover rates of 10
 milliseconds or 100 Hz a sharing rate of 1000 milliseconds or 1 Hz was
 shown to outperform sharing rates of 100 milliseconds 10 Hz and 10000
-milliseconds <img src="ltxpng/report_d18de6edaf66fe3ff6ebf7dfcfbdfe87beafdd9d.png"/> Hz.  This was true in both the straight
+milliseconds <img src="ltxpng/report_a258ec0d4c4c43e782fe096536d55f32d74921a3.png"/> Hz.  This was true in both the straight
 line board configuration and the figure eight configuration.  This
-indicates that a sharing rate between boards of roughly 100 times the
-mutation and crossover rate is near ideal.
+indicates that a sharing rate of roughly 100 times the mutation and
+crossover rate is near ideal.
 </p>
 <p>
 There was no significant or consistent difference in performance
 between the two board layouts of a figure eight and a straight line.
 While it is possible that further experimentation with more tightly
 packed formations could reveal some statistically significant
-difference in layout performance this work indicates that any such
-difference would be negligible.
+difference in layout performance this work indicates that such
+differences will not be dramatic.
 </p>
 <p>
 Coevolution was added to the existing GP system.  While the
 coevolutionary runs performed poorly it is not immediately clear if
 this is due to an inherent feature of coevolution in this domain, to a
 failure of implementation, or to the fact that the problem space of
-the coevolutionary runs was so much large than that of the initial GP
+the coevolutionary runs was so much larger than that of the initial GP
 runs.  In those coevolutionary runs where reliable numbers were
 returned the line formation seemed to outperform the figure eight
-formation, and the middle tested sharing value of 10000 milliseconds
-or 100 times the evolutionary individual sharing rate seemed to
-perform best.
+formation, and the sharing value of 10000 milliseconds or 100 times
+the evolutionary individual sharing rate seemed to perform best.
 </p>
 </div>
 
@@ -984,8 +1016,8 @@ Each of the following sketches a possible path for future work.
 <div class="outline-text-4" id="text-1.7.1">
 
 <p>The GP parameters of mutation, crossover, and sharing rate can be set
-on a board-by-board level.  With a large collection of boards it would
-be plausible to vary the GP parameters with each board and perform
+on a per-board level.  With a large collection of boards it would be
+plausible to vary the GP parameters with each board and perform
 meta-evolution of the GP parameters simultaneously with the GP.
 </p>
 <p>
@@ -996,7 +1028,7 @@ The meta-evolutionary system would have a one-to-one mapping between
 individuals and boards.  This means that each individual in the
 population has a static physical address and can only communicate
 with its physical neighbors.  This limitation means that no global
-GP operations (e.g. best/worst fit or random selection of
+GP operations (e.g. best/worst individual or random selection of
 individuals) could be applied to the boards.  Rather the GP would
 need to be distributed s.t. each GP action (crossover, mutation,
 selection, death) acts on a limited horizon.
@@ -1004,14 +1036,14 @@ selection, death) acts on a limited horizon.
 <li>
 When applied over a running GP system this meta-evolution could help
 to refine parameters more quickly than the exhaustive battery of
-runs strategy used in much of this report.
+runs used in much of this report.
 </li>
 <li>
 When applied over a running GP system it is plausible that the
 meta-evolution would adapt the GP parameters to fit different stages
-of the base GPs evolution.  For example it may emphasize exploratory
-operations in the early stages and then slowly switch to more
-exploitative operations in that later stages of a run.
+of a single run of the base GP.  For example it may emphasize
+exploratory operations in the early stages and then slowly switch to
+more exploitative operations in that later stages of a run.
 
 </li>
 </ul>
@@ -1028,16 +1060,16 @@ that the setup would be robust to a dynamic board environment where
 boards are being added and removed from the group mid-run, we have
 presented no experimental evidence of these claims.  It would be a
 relatively simple extension of our current experimentation environment
-GP to allow experimentation in this area.  The two new scenarios would
-each require a small addition to the current software.
+to allow experimentation in this area.  Two new scenarios would each
+require a small addition to the current software.
 </p>
 <dl>
-<dt>board remove</dt><dd>
-In this scenario a board is removed mid-run.  Rather
-than having a human experimenter physically disconnect boards
-during the run, the ability of the boards to turn power off to
-their neighbors could be used by the computer-side Ruby scripts
-to simulate neighbor loss through power offs.
+<dt>board removal</dt><dd>
+In this scenario a board is removed mid-run.
+Rather than having a human experimenter physically disconnect
+boards during the run, the ability of the boards to turn power
+off to their neighbors could be used by the computer-side Ruby
+scripts to simulate neighbor loss through power offs.
 </dd>
 <dt>board addition</dt><dd>
 In this scenario a new board would be added
@@ -1048,9 +1080,9 @@ have downloaded the GP sketch.  This example <a href="src/code-flow-sketch.pde">
 provided by Prof. Ackley demonstrates the relevant core software
 functions required by a newly added board for acting immediately
 after it has had its software updated.  Alternately such a data
-pull could simply be added to the startup routine for changing
-the default behavior of all newly booted boards to that of
-goal/individual requests.
+pull could simply be added to the startup routine &ndash; changing the
+default behavior of all newly booted boards to an attempted pull
+of new goals or individuals.
 
 </dd>
 </dl>
@@ -1062,11 +1094,11 @@ goal/individual requests.
 <h4 id="sec-1.7.3">splitting up the fitness space across the boards </h4>
 <div class="outline-text-4" id="text-1.7.3">
 
-<p>By partitioning the fitness space across the boards in a connected
-group it may be possible to find partitions that out perform either
-the default choice of testing over the entire space on each board.
-One exciting aspect of this expansion is its incorporation of the
-physical properties of the group of boards into the GP space.
+<p>By partitioning the fitness space across a connected group of boards
+it may be possible to find partitions that outperform the default
+choice of testing over the entire space on each board.  One exciting
+aspect of this expansion is its incorporation of the physical
+properties of the group of boards into the GP space.
 </p>
 <p>
 For example, the fitness function used in this work of comparing
@@ -1088,6 +1120,11 @@ physical placement of the board in the group
 <li>
 evaluating the variety of different 2D board layouts in combination
 with various x-value partitions
+</li>
+<li>
+investigate the behavior and interactions of subpopulations each of
+which may only be able to "inhabit" some subset of the boards in the
+group
 
 </li>
 </ul>
@@ -1136,7 +1173,7 @@ analyzing experimental results.
 <p class="author"> Author: Eric Schulte
 <a href="mailto:eschulte at cs dot unm dot edu">&lt;eschulte at cs dot unm dot edu&gt;</a>
 </p>
-<p class="date"> Date: 2009-12-16 11:05:10 MST</p>
+<p class="date"> Date: 2009-12-16 12:11:29 MST</p>
 <p class="creator">HTML generated by org-mode 6.33trans in emacs 23</p>
 </div>
 </div>
