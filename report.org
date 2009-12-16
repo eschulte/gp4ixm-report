@@ -465,20 +465,62 @@ files.
 #+Caption: Formation: line Goal: "xxx**xxxx***+" Run: 0
 [[file:videos/evo_line_100_0_0.mp4]]
 
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/evo_line_100_0_0.mpg" autostart="false"/></p>
+    <p>Formation: line Goal: "xxx**xxxx***+" Run: 0</p>
+  </div>
+#+end_html
+
 #+Caption: Formation: line Goal: "7xxx**+" Run: 1
 [[file:videos/evo_line_100_1_1.mp4]]
+
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/evo_line_100_1_1.mpg" autostart="false"/></p>
+    <p>Formation: line Goal: "7xxx**+" Run: 1</p>
+  </div>
+#+end_html
 
 #+Caption: Formation: line Goal: "xs55+55+**" Run: 1
 [[file:videos/evo_line_100_2_1.mp4]]
 
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/evo_line_100_2_1.mpg" autostart="false"/></p>
+    <p>Formation: line Goal: "xs55+55+**" Run: 1</p>
+  </div>
+#+end_html
+
 #+Caption: Formation: eight Goal: "xxx**xxxx***+" Run: 1
 [[file:videos/evo_eight_100_0_1.mp4]]
+
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/evo_eight_100_0_1.mpg" autostart="false"/></p>
+    <p>Formation: eight Goal: "xxx**xxxx***+" Run: 1</p>
+  </div>
+#+end_html
 
 #+Caption: Formation: eight Goal: "7xxx**+" Run: 1
 [[file:videos/evo_eight_100_1_1.mp4]]
 
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/evo_eight_100_1_1.mpg" autostart="false"/></p>
+    <p>Formation: eight Goal: "7xxx**+" Run: 1</p>
+  </div>
+#+end_html
+
 #+Caption: Formation: eight Goal: "xs55+55+**" Run: 1
 [[file:videos/evo_eight_100_2_1.mp4]]
+
+#+begin_html 
+  <div class="figure">
+    <p><embed src="./videos/evo_eight_100_2_1.mpg" autostart="false"/></p>
+    <p>Formation: eight Goal: "xs55+55+**" Run: 1</p>
+  </div>
+#+end_html
 
 #+begin_html 
 <div class="figure">
