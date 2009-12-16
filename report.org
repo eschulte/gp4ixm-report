@@ -349,6 +349,34 @@ that is appears that some boards did not successfully have their goal
 reset from "7xxx**+" to "xs55+55+**" in these runs, so no data is
 available.
 
+although no individuals exactly matched $100 sine(x)$ some did come
+close, most notably the following whose RPN representation of
+=x2*x6-/3x7+*x3x-*/+7*= expands to the following algebraic expression
+=((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)= which
+does a very good job of matching the target function over the test
+values of x with a best score of 136.07.
+
+#+begin_src gnuplot :exports none :results silent
+  set xrange[0:10]
+  set xtics 0,1,10
+  set yrange[-120:120]
+  set grid
+  plot 100 * sin(x), ((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)
+#+end_src
+
+#+Caption: best individual in range
+[[file:graphs/evo_line_2_best.svg]]
+
+although globally the fit is less impressive
+
+#+begin_src gnuplot :exports code :results silent
+  set grid
+  plot 100 * sin(x), ((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)
+#+end_src
+
+#+Caption: best individual out of range
+[[file:graphs/evo_line_2_best_wide.svg]]
+
 **** figure eight
 The runtimes for each sharing rate by goal.  All sharing rates are
 reported in milliseconds.  In general the results seem to illustrate
@@ -378,6 +406,34 @@ reported.
 |         1000 |        183.966666666667 |
 |          100 |        253.433333333333 |
 
+although no individuals exactly matched $100 sine(x)$ some did come
+close, most notably the following whose RPN representation of
+=0757x/3-x+3x-/**x/x+x*= expands to the following algebraic expression
+=((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)= which
+does a very good job of matching the target function over the test
+values of x with a score of 254.35.
+
+#+begin_src gnuplot :exports none :results silent
+  set xrange[0:10]
+  set xtics 0,1,10
+  set yrange[-120:120]
+  set grid
+  plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
+#+end_src
+
+#+Caption: best individual in range
+[[file:graphs/evo_eight_2_best.svg]]
+
+although globally the fit is less impressive
+
+#+begin_src gnuplot :exports code :results silent
+  set grid
+  plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
+#+end_src
+
+#+Caption: best individual out of range
+[[file:graphs/evo_eight_2_best_wide.svg]]
+
 **** video results
 The following videos are provided to better illustrate the dynamic
 fitness levels across multiple boards during the previous runs.  In
@@ -388,7 +444,7 @@ board.  Recall that fitness is calculated as the *difference* between
 an individual and the goal, so a lower fitness score is better.
 
 *note*: If the following don't begin playing automatically they can be
-download from [[somewhere][here]] and saved to your desktop.  On a mac you may need
+download from [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/videos][here]] and saved to your desktop.  On a mac you may need
 to use [[http://www.videolan.org/vlc/][VLC]] if your default video player doesn't understand these
 files.
 
@@ -497,6 +553,8 @@ same disclaimer/instructions as above...
 #+Caption: Formation: eight Goal: "7xxx**+" Run: 1
 [[file:videos/coevo_eight_10000_1_1.mp4]]
 
+** Conclusions
+
 ** Future Work
 - meta-GP
 - taking and giving boards
@@ -506,508 +564,17 @@ same disclaimer/instructions as above...
    :PROPERTIES:
    :CUSTOM_ID: reproduction
    :END:
+Both the pdf and html versions of this report were generated using
+[[http://www.gnu.org/software/emacs/][Emacs]] [[http://orgmode.org/][Org-mode]] and [[http://orgmode.org/worg/org-contrib/babel/org-babel.php][Org-babel]].  These tools combined allow all the code
+and processed data used to conduct the experimentation and data
+analysis supporting this report to be embedded in the same document
+containing the prose of the report.  The source of this document as
+well as all supporting files required to re-create these results can
+be obtained using either git or a =.tar= or =.zip= download from
+http://github.com/eschulte/gp4ixm-report.
 
-* COMMENT Data Analysis
-** basic GP parameters
-
-Both mutation and breeding have improve the runtime of the GP.
-However it seems that mutation is move effective for easier problems
-while breeding is more effective for harder problems.
-
-#+Caption: runtime by GP parameters
-[[file:graphs/gp-params.svg]]
-
-** GP visualization
-evo-individuals and coevo-individuals
-
-connect the gnuplot graphics to the text files of results
-
-1) ingest text files
-2) persist in serialized ruby structures
-3) connect to group/board data structures
-4) produce graphs
-
-** plot fitness by time
-many data points, maybe a best-fit line w/R
-
-** comparisons
-*** sharing rates
-**** evo-eight
-***** Goal 0
-- runtime -- all completed inside of 10 seconds
-  #+begin_example
-    irb(main):176:0> ave_max_time
-    ave_max_time
-    {10000=>3.6102906, 100=>6.4068757, 1000=>2.8806907}
-  #+end_example
-- score -- average best score, I believe this is misleading however as
-  some of the 0s were not recorded for being received too early
-  #+begin_example
-    irb(main):185:0> ave_best_score
-    ave_best_score
-    {10000=>3192.3, 100=>0.0, 1000=>3157.8}
-  #+end_example
-- percent fully completed -- again I believe these should all be 10/10
-  but are different due to recording errors.  Strong evidence in favor
-  of this is the fact that recording terminated which only occurs
-  after receiving a fully successful individual.
-  - s = 100 completed 10/10
-  - s = 1000 completed 8/10
-  - s = 10000 completed 8/10
-
-***** Goal 1
-- runtime -- all completed inside of 10 minutes
-  #+begin_example 
-    irb(main):204:0> ave_max_time
-    ave_max_time
-    {10000=>24.0118271, 100=>1.9693912, 1000=>3.1030883}
-  #+end_example
-- score -- all run completed so all reached best possible score
-  #+begin_example 
-    irb(main):212:0> ave_best_score
-    ave_best_score
-    {10000=>0.0, 100=>0.0, 1000=>0.0}
-  #+end_example
-- example individual =4827-*/*/7xxx**+=
-  
-***** Goal 2
-- runtime -- no runs completed
-  #+begin_example
-    irb(main):052:0> ave_max_time
-    ave_max_time
-    {10000=>1207.943955, 100=>1207.720609, 1000=>1210.959188}
-  #+end_example
-- score -- looks like two actually succeeded...
-  #+begin_example
-    irb(main):096:0> ave_best_score
-    ave_best_score
-    {10000=>255.311111111111, 100=>253.433333333333, 1000=>183.966666666667}
-  #+end_example
-- best individual at 100 sharing with
-  - score -- 1206.406949
-  - rep -- =((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)=
-  - graph -- [[file:graphs/s_100_g_2_best.png]]
-
-**** evo-line
-***** Goal 0
-
-***** Goal 1
-
-***** Goal 2
-
-**** coevo-eight
-***** Goal 0
-- run-time -- looks like most aren't finishing
-  #+begin_example 
-    irb(main):298:0> ave_max_time
-    ave_max_time
-    {10000=>1207.0363047, 100000=>1206.9868935, 1000=>1207.0620207}
-  #+end_example
-- score -- average best seems to indicate faster sharing is better
-  #+begin_example
-    irb(main):322:0> ave_best_score
-    ave_best_score
-    {10000=>16.624, 100000=>89985.059, 1000=>5986.421}
-  #+end_example
-- success rate -- looks like some *did* succeed
-  #+begin_example
-    irb(main):339:0> best_scores[1000]
-    best_scores[1000]
-    [1.0, 1.0, 7.0, 9.0, 0.0, 0.0, 7.0, 6.0, 59826.21, 7.0]
-  #+end_example
-
-- individual
-
-*** line vs. eight
-*** evo vs. coevo
-** tools
-*** GP parameters
-
-Collect results from the GP parameters run in =./raw/gp-params=
-
-#+srcname: gp-params_results_setup
-#+begin_src ruby :results output raw :exports code
-  # each instance holds the information from one run
-  class Result
-    attr_accessor :s, :m, :b, :g, :raw
-    def initialize(s, m, b, g)
-      self.s = s; self.m = m; self.b = b; self.g = g
-    end
-    def counts
-      self.raw.split("\n").
-        map{|l| [Float($1), Float($2)] if l.match(/([\.\d]+)[ \t]([\.\d]+)/)}.compact
-    end
-    def runtime() self.counts.size end
-    def average
-      if self.runtime > 0
-        self.counts.inject(0){ |sum, n| sum + n[1] } / self.runtime
-      else
-        -1
-      end
-    end
-  end
-  
-  base = "./raw/gp-params/"
-  results = Dir.entries(base).map do |e|
-    if e.match(/r_s.(\d+)_m.(\d+)_b.(\d+)_i.(\d+)_g.(\d+).(\d+)/)
-      r = Result.new($1, $2, $3, Float("#{$5}.#{$6}"))
-      r.raw = File.read(File.join(base, e))
-      r
-    end
-  end.compact
-#+end_src
-
-#+srcname: gp-params_results_by_goal
-#+begin_src ruby :results raw output :exports code :noweb
-  # <<gp-params_results_setup>>
-  # print out averaged over 5 goal runs
-  puts "|sharing|mutation|breeding|goal|runtime|average fitness|"
-  puts "|--------"
-  runtime = 0; average = 0
-  results.each do |r|
-    goal_num  = r.g.to_s.split(".")[0]
-    goal_time = r.g.to_s.split(".")[1]
-    runtime  += r.runtime
-    average  += r.average
-    if goal_time == "4"
-      runtime = runtime / 5
-      average = average / 5
-      puts "|"+[:s, :m, :b].map{ |meth| r.send(meth).to_s}.join("|")+
-        "|#{goal_num}|#{runtime}|#{average}|"
-      runtime = 0
-      average = 0
-    end
-  end
-#+end_src
-
-gp-param results in tabular form
-
-#+results: gp-params_results_by_goal
-| sharing | mutation | breeding | goal | runtime |  average fitness |
-|---------+----------+----------+------+---------+------------------|
-|       0 |       10 |       10 |    0 |       9 | 4049.28409090909 |
-|       0 |       10 |      100 |    0 |      14 | 2060.36547619048 |
-|       0 |      100 |      100 |    0 |     101 | 2529.54963621051 |
-|       0 |      100 |       10 |    0 |     132 | 2909.66486823494 |
-|       0 |       10 |       10 |    1 |      42 | 266.851231300345 |
-|       0 |      100 |       10 |    1 |     141 | 139.570506458541 |
-|       0 |       10 |      100 |    1 |     264 | 99.7771832410837 |
-|       0 |      100 |      100 |    1 |     303 | 270.617550373458 |
-
-#+tblname: gp-params_results
-| goal | m.10 b.10 | m.10 b.100 | m.100 b.10 | m.100 b.100 |
-|------+-----------+------------+------------+-------------|
-|    1 |         9 |         14 |        132 |         101 |
-|    2 |        42 |        264 |        141 |         303 |
-
-generate graph of gp-param results (for some reason gnuplot SVG output
-only works gnuplot is called twice)
-#+begin_src gnuplot :var data=gp-params_results :exports none :file graphs/gp-params.svg
-  set boxwidth 0.9 relative
-  set title 'run times by GP params'
-  set xlabel 'problems'
-  set xtics ("xxx**xxxx***+" 0, "7xxx**+" 1)
-  set ylabel 'runtimes (seconds)'
-  set style data histograms
-  set style fill solid 1.0 border -1
-  plot data using 2 title 'm.10 b.10', '' using 3 title 'm.10 b.100', '' using 4 title 'm.100 b.10', '' using 5 title 'm.100 b.100'
-#+end_src
-
-#+results:
-[[file:graphs/gp-params.svg]]
-
-*** sharing
-#+srcname: sharing_results_setup
-#+begin_src ruby :results output raw :exports code
-  # each instance holds the information from one run
-  class Result
-    attr_accessor :s, :m, :b, :g, :raw
-    def initialize(s, m, b, g)
-      self.s = s; self.m = m; self.b = b; self.g = g
-    end
-    def counts
-      self.raw.split("\n").
-        map{|l| [Float($1), Float($2)] if l.match(/([\.\d]+)[ \t]([\.\d]+)/)}.compact
-    end
-    def runtime() self.counts.size end
-    def average
-      if self.runtime > 0
-        self.counts.inject(0){ |sum, n| sum + n[1] } / self.runtime
-      else
-        -1
-      end
-    end
-  end
-  
-  base = "./raw/sharing/"
-  results = Dir.entries(base).map do |e|
-    if e.match(/r_s.(\d+)_m.(\d+)_b.(\d+)_g.(\d+).(\d+)/)
-      r = Result.new($1, $2, $3, Float("#{$4}.#{$5}"))
-      r.raw = File.read(File.join(base, e))
-      r
-    end
-  end.compact
-#+end_src
-
-#+srcname: sharing_results_by_goal
-#+begin_src ruby :results raw output :exports code :noweb
-  # <<sharing_results_setup>>
-  # print out averaged over 5 goal runs
-  puts "|sharing|mutation|breeding|goal|runtime|average|"
-  puts "|--------"
-  runtime = 0; average = 0
-  results.each do |r|
-    goal_num  = r.g.to_s.split(".")[0]
-    goal_time = r.g.to_s.split(".")[1]
-    runtime  += r.runtime
-    average  += r.average
-    if goal_time == "4"
-      runtime = runtime / 5
-      average = average / 5
-      puts "|"+[:s, :m, :b].map{ |meth| r.send(meth).to_s}.join("|")+
-        "|#{goal_num}|#{runtime}|#{average}|"
-      runtime = 0
-      average = 0
-    end
-  end
-#+end_src
-
-#+resname: sharing_results_by_goal
-| goal | sharing | mutation | breeding | runtime |          average |
-|------+---------+----------+----------+---------+------------------|
-|    0 |     100 |       10 |       10 |      34 |  2131.9212962963 |
-|    0 |       0 |       10 |       10 |      14 | 2790.12836363636 |
-|    1 |     100 |       10 |       10 |      10 | 121.083356643357 |
-|    1 |       0 |       10 |       10 |      17 | 300.862181818182 |
-
-#+tblname: sharing_results
-| goal |              smb |              -mb |
-|------+------------------+------------------|
-|    1 | 121.083356643357 | 300.862181818182 |
-|    2 |  2131.9212962963 | 2790.12836363636 |
-
-#+begin_src gnuplot :var data=sharing_results :exports code :results silent
-  reset
-  set boxwidth 0.9 relative
-  set xlabel 'problems'
-  set xtics ("xxx**" 1, "xx*" 0)
-  set ylabel 'runtimes (seconds)'
-  set style data histograms
-  set style fill solid 1.0 border -1
-  plot data using 2 title 'smb', '' using 3 title '-mb'
-#+end_src
-
-*** ingest a directory of results into ruby
-ingest a directories worth of run results and return a list of Datum
-#+source: ingest
-#+begin_src ruby
-  class Datum
-    attr_accessor :share, :goal, :run, :time, :score, :path
-  end
-  def ingest(base)
-    Dir.entries(base).map do |e|
-      if (e.match(/r_s.(\d+)_m.(\d+)_b.(\d+)_i.(\d+)_g.(\d+).(\d+)/) or
-          e.match(/r_S.(\d+)_s.\d+_m.(\d+)_b.(\d+)_i.(\d+)_g.(\d+).(\d+)/))
-        share = Integer($1)
-        goal  = Integer($5)
-        run   = Integer($6)
-        File.read(File.join(base, e)).map do |l|
-          if l.match(/^([\d\.\/-]+)\t([\d\.\/-]+)\t([frl]+)$/)
-            d = Datum.new
-            d.share = share
-            d.goal  = goal
-            d.run   = run
-            d.time  = Float($1) rescue -1
-            d.score = Float($2) rescue -1
-            d.path  = $3
-            d
-          end
-        end.compact
-      end
-    end.compact.flatten
-  end
-#+end_src
-
-test ingest -- works -- 512783 data points in the directory
-#+begin_src ruby :noweb :results output silent :tangle feed :session
-  <<ingest>>
-  data = ingest("./raw/15-evo-line/");''
-  puts data.size
-#+end_src
-
-**** serialize -- not plausible
-tried YAML and sqlite3 and neither worked in a reasonable amount of
-time
-
-creating a sqlite3 table to hold this info
-#+begin_src ruby
-  # create database
-  db = SQLite3::Database.new('raw.db')
-  
-  table = "evo_eight"
-  
-  # create table
-  db.execute("create table #{table} (share INT, goal INT, run INT, time FLOAT, score FLOAT, path STRING);")
-  
-  # define keys
-  keys = %w{share goal run time score path}
-  
-  # create a large insert statement for 1000 data points
-  stmt = data.map{ |d| "insert into #{table} (#{keys.join(", ")}) values (#{keys[0..-2].map{|k| d.send(k.intern) }.join(", ")}, '#{d.path}');" }
-  
-  db.transaction{ |db| db.execute_batch(stmt.join("\n")) }
-#+end_src
-
-*** rpn to alg
-
-evo individuals are check on the (0..9) range inclusive
-
-#+results: rpn-string
-| 0757x/3-x+3x-/**x/x+x* |
-
-#+source: rpn-to-alg
-#+begin_src ruby :var ind=rpn-string :results output
-  operators = %W{+ - / *}
-  $stack = []
-  ind[0][0].split(//).each do |ch|
-    if operators.include?(ch)
-      right = $stack.pop or "1"
-      left = $stack.pop or "1"
-      $stack.push("(#{left} #{ch} #{right})")
-    else
-      $stack.push(ch)
-    end
-  end
-  puts $stack.pop
-#+end_src
-
-#+begin_src gnuplot :exports none
-  set xrange[0:10]
-  set xtics 0,1,10
-  set yrange[-120:120]
-  set grid
-  plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
-#+end_src
-
-wider range
-
-#+begin_src gnuplot :exports none
-  set grid
-  plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
-#+end_src
-
-*** narrow down to a specific goal
-#+begin_src ruby
-  by_goal = data.select{|d| d.goal == 0}; by_goal.size
-#+end_src
-
-*** clear out early individuals
-need to clear out individuals from previous runs -- namely those
-returned before the reset packet
-#+begin_src ruby
-  # make sure to remove individuals from before reset packet
-  temp_by_goal = by_goal.reject{|d| d.time < 2};
-#+end_src
-
-*** ave_max_runtimes
-#+source: ave_max_runtimes
-#+begin_src ruby
-  ave_max_time = {}
-  [1000, 10000, 100000].each do |share|
-    data_s = temp_by_goal.select{|d| d.share == share}
-    ave_max_time[share] = (0..9).map{|r| data_s.select{|d| d.run == r }.
-      sort_by{|d| d.time}.last.time}.inject(0){|a,t| a += t} / 10
-  end
-#+end_src
-
-*** ave_best_score -- for evo
-#+source: ave_best_score
-#+begin_src ruby
-  ave_best_score = {}
-  [100, 1000, 10000].each do |share|
-    data_s = temp_by_goal.select{|d| d.share == share}
-    ave_best_score[share] = (0..9).map{|r| data_s.select{|d| d.run == r }.
-      sort_by{|d| d.score}.first.score}.inject(0){|a,t| a += t} / 10
-  end
-#+end_src
-
-*** ave_best_score -- for coevo
- be careful about negative scores
-#+source: ave_best_score
-#+begin_src ruby
-  ave_best_score = {}
-  [1000, 10000, 100000].each do |share|
-    data_s = temp_by_goal.select{|d| d.share == share}
-    ave_best_score[share] = (0..9).map{|r| data_s.select{|d| d.run == r }.
-      select{|d| d.score >= 0}.
-      sort_by{|d| d.score}.first.score}.inject(0){|a,t| a += t} / 10
-  end
-#+end_src
-
-*** best_inds
-#+source: best_inds
-#+begin_src ruby
-  best_inds = {}
-  [100, 1000, 10000].each do |share|
-    data_s = temp_by_goal.select{|d| d.share == share}
-    best_inds[share] = (0..9).map{|run| data_s.sort_by{|d| d.score}.first}.
-      sort_by{|d| d.score}.first
-  end
-#+end_src
-
-*** graph of the fitness of a run
-#+begin_src ruby :session
-  file.open('/tmp/goal_0_coevo.txt', 'w'){|f| f << by_goal.select{|d| d.share == 1000}.select{|d| d.run == 4}.sort_by{|d| d.time}.map{|d| "#{d.time}\t#{d.score}" }.join("\n") }
-#+end_src
-
-#+begin_src gnuplot :exports none
-  plot '/tmp/goal_0_coevo.txt' using 1:2
-#+end_src
-
-*** visualize
-visualize -- dump a set of data to a series of png images in a directory
-#+begin_src ruby
-  require 'src/group.rb'
-  def visualize(data, share, goal, run)
-    path = File.join(Dir.pwd, "./videos/#{share}_#{goal}_#{run}/")
-  
-    # initialize the group
-    g = Group.new(path)
-  
-    # pare down the data
-    my_data = data.select{|d| (d.run == run) && (d.goal == goal) && (d.share == share)}
-    
-    # make the graphs
-    timer = 0
-    my_data.sort_by{|d| d.time}.each do |d|
-      g.update("c#{d.score} #{d.path}")
-      # if d.time.floor > timer
-      #   timer = d.time.floor
-      #   g.plot(timer)
-      # end
-      if d.time < 20
-        timer += 1
-        g.plot(sprintf("%04d", timer))
-      end
-    end
-    timer
-  end
-#+end_src
-
-#+begin_src ruby
-  visualize(temp_by_group, 1000, 0, 4)
-#+end_src
-
-conversion into a movie
-- with instructions from http://electron.mit.edu/~gsteele/ffmpeg/
-- done with ffmpeg
-  #+begin_src sh
-    ffmpeg -r 4 -i %04d.png ./evo_eight_100_2_1.mp4
-  #+end_src
-- conversion to mpg done with mencoder, for example...
-  #+begin_src sh
-    mencoder coevo_line_10000_2_1.mp4 -ovc lavc -vf scale=352:288 -oac lavc -o coevo_line_10000_2_1.mpg
-  #+end_src
+See [[file:data-analysis.org][data-analysis]] for a collection of the tools used in collecting and
+analyzing experimental results.
 
 * Footnotes
 
