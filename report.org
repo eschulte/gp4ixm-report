@@ -554,10 +554,15 @@ the a sharing rate of 10000 milliseconds performs best.
 |         1000 |                    10.8 |
 
 ***** "7xxx**+"
-insufficient data
+No results are reported for this range, as many runs did not return
+any results.  The only plausible reason for this result is that the
+reported scores for these runs were so large (bad) as to overflow the
+c++ =double= type, returning non-integer values which the Ruby scripts
+could not parse.  Future sections with this same problem will be
+indicated as /insufficient data/.
 
 ***** "xs55+55+**"
-insufficient data
+/insufficient data/
 
 **** figure eight
 The runtimes for each sharing rate by goal.  All sharing rates are
@@ -578,11 +583,7 @@ the a sharing rate of 1000 milliseconds performs best.
 |         1000 |                6651.732 |
 
 ***** "xs55+55+**"
-No results are reported for this range, as many runs did not return
-any results.  The only plausible reason for this result is that the
-reported scores for these runs were so large (bad) as to overflow the
-c++ =double= type, returning non-integer values which the Ruby scripts
-could not parse.
+/insufficient data/
 
 **** videos
 same disclaimer/instructions as above...
@@ -603,23 +604,58 @@ same disclaimer/instructions as above...
 [[file:videos/coevo_eight_10000_1_1.mp4]]
 
 ** Conclusions
+A subpopulation GP system was shown to be effective in the IXM
+environment.  The GP operators of mutation and crossover were both
+shown to improve the effectiveness of the GP to varying degrees
+depending on the difficulty of the target problem.  Distribution of
+the GP system over multiple IXM boards was shown to improve the speed
+with which the GP solved problems although the ideal speedup of
+$\frac{runtime}{number\,of\,boards}$ was not achieved.
+
+In normal evolution the with mutation and crossover rates of 10
+milliseconds or 100 Hz a sharing rate of 1000 milliseconds or 1 Hz was
+shown to outperform sharing rates of 100 milliseconds 10 Hz and 10000
+milliseconds \frac{1}{{10}$ Hz.  This was true in both the straight
+line board configuration and the figure eight configuration.  This
+indicates that a sharing rate between boards of roughly 100 times the
+mutation and crossover rate is near ideal.
+
+There was no significant or consistent difference in performance
+between the two board layouts of a figure eight and a straight line.
+While it is possible that further experimentation with more tightly
+packed formations could reveal some statistically significant
+difference in layout performance this work indicates that any such
+difference would be negligible.
+
+Coevolution was added to the existing GP system.  While the
+coevolutionary runs performed poorly it is not immediately clear if
+this is due to an inherent feature of coevolution in this domain, to a
+failure of implementation, or to the fact that the problem space of
+the coevolutionary runs was so much large than that of the initial GP
+runs.  In those coevolutionary runs where reliable numbers were
+returned the line formation seemed to outperform the figure eight
+formation, and the middle tested sharing value of 10000 milliseconds
+or 100 times the evolutionary individual sharing rate seemed to
+perform best.
+
 ** Future Work
-- meta-GP
-- taking and giving boards
-- splitting up the fitness space across the boards
+*** repeat coevolutionary runs
+*** meta-GP
+*** taking and giving boards
+*** splitting up the fitness space across the boards
 
 ** Reproduction and Expansion of this work
    :PROPERTIES:
    :CUSTOM_ID: reproduction
    :END:
 Both the pdf and html versions of this report were generated using
-[[http://www.gnu.org/software/emacs/][Emacs]] [[http://orgmode.org/][Org-mode]] and [[http://orgmode.org/worg/org-contrib/babel/org-babel.php][Org-babel]].  These tools combined allow all the code
-and processed data used to conduct the experimentation and data
-analysis supporting this report to be embedded in the same document as
-the prose of the report.  The source of this document as well as all
-supporting files required to re-create these results can be obtained
-as a =.tar= or =.zip= download or using [[http://git-scm.com/][git]] from
-http://github.com/eschulte/gp4ixm-report.
+[[http://www.gnu.org/software/emacs/][Emacs]] [[http://orgmode.org/][Org-mode]] and [[http://orgmode.org/worg/org-contrib/babel/org-babel.php][Org-babel]].  These tools allow source code and data
+to be interleaved with prose in the same documents.  The source
+documents as well as all supporting files required to re-create this
+report can be obtained as a =.tar= or =.zip= download or using [[http://git-scm.com/][git]]
+from http://github.com/eschulte/gp4ixm-report.  A single massive
+=.tar= file including all graphs figures and pictures can be
+downloaded from [[somewhere][here]].
 
 See [[file:data-analysis.org][data-analysis]] for a collection of the tools used in collecting and
 analyzing experimental results.
