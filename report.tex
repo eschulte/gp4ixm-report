@@ -1,4 +1,4 @@
-% Created 2009-12-16 Wed 10:35
+% Created 2009-12-16 Wed 10:47
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -10,6 +10,14 @@
 \usepackage{tikz}
 \usepackage{listings}
 \usepackage{movie15}
+\hypersetup{
+colorlinks=true,
+linkcolor=blue,
+citecolor=blue,
+filecolor=blue,
+urlcolor=blue,
+pdfborder={0 0 0 0}
+}
 
 \title{Genetic Programming on IXM}
 \author{Eric}
@@ -19,6 +27,17 @@
 
 \maketitle
 
+
+\definecolor{strings}{RGB}{60,179,113}
+\lstset{
+  keywordstyle=\color{blue},
+  commentstyle=\color{red},
+  stringstyle=\color{strings}
+}
+\hypersetup{
+  linkcolor=blue,
+  pdfborder={0 0 0 0}
+}
 
 \section*{Report}
 \label{sec-1}
@@ -504,42 +523,42 @@ files.
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/evo_line_100_0_0.mpg}
+    \includemovie[poster, text={\small(videos/evo\_line\_100\_0\_0.mpg)}]{6cm}{6cm}{videos/evo_line_100_0_0.mpg}
   \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_1_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_line\_100\_1\_1.mpg)}]{6cm}{6cm}{videos/evo_line_100_1_1.mpg}
   \caption{Formation: line Goal: "7xxx**+" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_2_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_line\_100\_2\_1.mpg)}]{6cm}{6cm}{videos/evo_line_100_2_1.mpg}
   \caption{Formation: line Goal: "xs55+55+**" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_0_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_eight\_100\_0\_1.mpg)}]{6cm}{6cm}{videos/evo_eight_100_0_1.mpg}
   \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_1_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_eight\_100\_1\_1.mpg)}]{6cm}{6cm}{videos/evo_eight_100_1_1.mpg}
   \caption{Formation: eight Goal: "7xxx**+" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_2_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_eight\_100\_2\_1.mpg)}]{6cm}{6cm}{videos/evo_eight_100_2_1.mpg}
   \caption{Formation: eight Goal: "xs55+55+**" Run: 1}
   \end{figure}
 
@@ -663,35 +682,35 @@ same disclaimer/instructions as above\ldots{}
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/coevo_line_10000_0_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_line\_10000\_0\_1.mpg)}]{6cm}{6cm}{videos/coevo_line_10000_0_1.mpg}
   \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_1_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_line\_10000\_1\_1.mpg)}]{6cm}{6cm}{videos/coevo_line_10000_1_1.mpg}
   \caption{Formation: line Goal: "7xxx**+" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_2_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_line\_10000\_2\_1.mpg)}]{6cm}{6cm}{videos/coevo_line_10000_2_1.mpg}
   \caption{Formation: line Goal: "xs55+55+**" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_0_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_eight\_10000\_0\_1.mpg)}]{6cm}{6cm}{videos/coevo_eight_10000_0_1.mpg}
   \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
   \end{figure}
 
 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_1_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_eight\_10000\_1\_1.mpg)}]{6cm}{6cm}{videos/coevo_eight_10000_1_1.mpg}
   \caption{Formation: eight Goal: "7xxx**+" Run: 1}
   \end{figure}
 

@@ -1,7 +1,31 @@
+#+ -*- org-export-latex-image-default-option: "width=28em" -*-
 #+TITLE: Genetic Programming on IXM
 #+OPTIONS: num:nil ^:nil TeX:t LaTeX:t
 #+LaTeX_CLASS: normal
 #+STARTUP: hideblocks
+#+LATEX_HEADER: 
+#+LATEX_HEADER: \usepackage{movie15}
+#+LATEX_HEADER: \hypersetup{
+#+LATEX_HEADER:   colorlinks=true,
+#+LATEX_HEADER:  linkcolor=blue,
+#+LATEX_HEADER:  citecolor=blue,
+#+LATEX_HEADER:  filecolor=blue,
+#+LATEX_HEADER:  urlcolor=blue,
+#+LATEX_HEADER:  pdfborder={0 0 0 0}
+#+LATEX_HEADER:  }
+
+#+begin_latex 
+\definecolor{strings}{RGB}{60,179,113}
+\lstset{
+  keywordstyle=\color{blue},
+  commentstyle=\color{red},
+  stringstyle=\color{strings}
+}
+\hypersetup{
+  linkcolor=blue,
+  pdfborder={0 0 0 0}
+}
+#+end_latex
 
 * Report
 ** Introduction
@@ -458,7 +482,7 @@ files.
 #+begin_latex
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/evo_line_100_0_0.mpg}
+    \includemovie[poster, text={\small(videos/evo\_line\_100\_0\_0.mpg)}]{6cm}{6cm}{videos/evo_line_100_0_0.mpg}
   \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
   \end{figure}
 #+end_latex
@@ -473,7 +497,7 @@ files.
 #+begin_latex
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_1_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_line\_100\_1\_1.mpg)}]{6cm}{6cm}{videos/evo_line_100_1_1.mpg}
   \caption{Formation: line Goal: "7xxx**+" Run: 1}
   \end{figure}
 #+end_latex
@@ -488,7 +512,7 @@ files.
 #+begin_latex
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_line_100_2_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_line\_100\_2\_1.mpg)}]{6cm}{6cm}{videos/evo_line_100_2_1.mpg}
   \caption{Formation: line Goal: "xs55+55+**" Run: 1}
   \end{figure}
 #+end_latex
@@ -503,7 +527,7 @@ files.
 #+begin_latex
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_0_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_eight\_100\_0\_1.mpg)}]{6cm}{6cm}{videos/evo_eight_100_0_1.mpg}
   \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
   \end{figure}
 #+end_latex
@@ -518,7 +542,7 @@ files.
 #+begin_latex
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_1_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_eight\_100\_1\_1.mpg)}]{6cm}{6cm}{videos/evo_eight_100_1_1.mpg}
   \caption{Formation: eight Goal: "7xxx**+" Run: 1}
   \end{figure}
 #+end_latex
@@ -533,7 +557,7 @@ files.
 #+begin_latex
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/evo_eight_100_2_1.mpg}
+    \includemovie[poster, text={\small(videos/evo\_eight\_100\_2\_1.mpg)}]{6cm}{6cm}{videos/evo_eight_100_2_1.mpg}
   \caption{Formation: eight Goal: "xs55+55+**" Run: 1}
   \end{figure}
 #+end_latex
@@ -609,7 +633,7 @@ same disclaimer/instructions as above...
 #+begin_latex 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xxx**xxxx***+" Run: 0)}]{6cm}{6cm}{videos/coevo_line_10000_0_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_line\_10000\_0\_1.mpg)}]{6cm}{6cm}{videos/coevo_line_10000_0_1.mpg}
   \caption{Formation: line Goal: "xxx**xxxx***+" Run: 0}
   \end{figure}
 #+end_latex
@@ -624,7 +648,7 @@ same disclaimer/instructions as above...
 #+begin_latex 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_1_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_line\_10000\_1\_1.mpg)}]{6cm}{6cm}{videos/coevo_line_10000_1_1.mpg}
   \caption{Formation: line Goal: "7xxx**+" Run: 1}
   \end{figure}
 #+end_latex
@@ -639,7 +663,7 @@ same disclaimer/instructions as above...
 #+begin_latex 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: line Goal: "xs55+55+**" Run: 1)}]{6cm}{6cm}{videos/coevo_line_10000_2_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_line\_10000\_2\_1.mpg)}]{6cm}{6cm}{videos/coevo_line_10000_2_1.mpg}
   \caption{Formation: line Goal: "xs55+55+**" Run: 1}
   \end{figure}
 #+end_latex
@@ -654,7 +678,7 @@ same disclaimer/instructions as above...
 #+begin_latex 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "xxx**xxxx***+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_0_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_eight\_10000\_0\_1.mpg)}]{6cm}{6cm}{videos/coevo_eight_10000_0_1.mpg}
   \caption{Formation: eight Goal: "xxx**xxxx***+" Run: 1}
   \end{figure}
 #+end_latex
@@ -669,7 +693,7 @@ same disclaimer/instructions as above...
 #+begin_latex 
   \begin{figure}
   \centering
-    \includemovie[poster, text={\small(Formation: eight Goal: "7xxx**+" Run: 1)}]{6cm}{6cm}{videos/coevo_eight_10000_1_1.mpg}
+    \includemovie[poster, text={\small(videos/coevo\_eight\_10000\_1\_1.mpg)}]{6cm}{6cm}{videos/coevo_eight_10000_1_1.mpg}
   \caption{Formation: eight Goal: "7xxx**+" Run: 1}
   \end{figure}
 #+end_latex
