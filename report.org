@@ -639,10 +639,79 @@ or 100 times the evolutionary individual sharing rate seemed to
 perform best.
 
 ** Future Work
-*** repeat coevolutionary runs
-*** meta-GP
-*** taking and giving boards
+This work could be expanded upon in a number of interesting manners.
+Each of the following sketches a possible path for future work.
+
+*** meta-evolution
+The GP parameters of mutation, crossover, and sharing rate can be set
+on a board-by-board level.  With a large collection of boards it would
+be plausible to vary the GP parameters with each board and perform
+meta-evolution of the GP parameters simultaneously with the GP.
+
+This work has a number of interesting features.
+- The meta-evolutionary system would have a one-to-one mapping between
+  individuals and boards.  This means that each individual in the
+  population has a static physical address and can only communicate
+  with it's physical neighbors.  This limitation means that no global
+  GP operations (e.g. best/worst fit or random selection of
+  individuals) could be applied to the boards.  Rather the GP would
+  need to be distributed s.t. each GP action (crossover, mutation,
+  selection, death) acts on a limited horizon.
+- When applied over a running GP system this meta-evolution could help
+  to refine parameters more quickly than the exhaustive battery of
+  runs strategy used in much of this report.
+- When applied over a running GP system it is plausible that the
+  meta-evolution would adapt the GP parameters to fit different stages
+  of the base GPs evolution.  For example it may emphasize exploratory
+  operations in the early stages and then slowly switch to more
+  exploitative operations in that later stages of a run.
+
+*** dynamic board group
+While both the design of our GP system and information trials indicate
+that the setup would be robust to a dynamic board environment where
+boards are being added and removed from the group mid-run, we have
+presented no experimental evidence of these claims.  It would be a
+relatively simple extension of our current experimentation environment
+GP to allow experimentation in this area.  The two new scenarios would
+each require a small addition to the current software.
+
+- board remove :: In this scenario a board is removed mid-run.  Rather
+     than having a human experimenter physically disconnect boards
+     during the run, the ability of the boards to turn power off to
+     their neighbors could be used by the computer-side Ruby scripts
+     to simulate neighbor loss through power offs.
+- board addition :: In this scenario a new board would be added
+     mid-run.  To make this approach practical the current goal and
+     possibly the current individual population would need to be
+     shared with any new boards after they connect and/or after they
+     have downloaded the GP sketch.  This example [[file:src/code-flow-sketch.pde][code-flow-sketch.pde]]
+     provided by Prof. Ackley demonstrates the relevant core software
+     functions required by a newly added board for acting immediately
+     after it has had it's software updated.  Alternately such a data
+     pull could simply be added to the startup routine for changing
+     the default behavior of all newly booted boards to that of
+     goal/individual requests.
+
 *** splitting up the fitness space across the boards
+By partitioning the fitness space across the boards in a connected
+group it may be possible to find partitions that out perform either
+the default choice of testing over the entire space on each board.
+One exciting aspect of this expansion is it's incorporation of the
+physical properties of the group of boards into the GP space.
+
+For example, the fitness function used in this work of comparing
+individuals against a target function at specific values of x could be
+partitioned by assigning each board it's own range of x values.  There
+could be many interesting properties of this approach.
+- investigate whether contiguous x values assigned to neighboring
+  boards is more or less effective than random assignment of ranges of
+  x values
+- evaluating an even stricter direct mapping of the 2D space in which
+  the boards are arrayed to the 1D space of possible x values, such
+  that, the values present on a boards are strictly a result of the
+  physical placement of the board in the group
+- evaluating the variety of different 2D board layouts in combination
+  with various x-value partitions
 
 ** Reproduction and Expansion of this work
    :PROPERTIES:
