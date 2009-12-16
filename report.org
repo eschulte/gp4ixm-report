@@ -35,7 +35,7 @@ One goal of the boards is to enable experimentation with software
 developed under a new set of assumptions.  On a grid of IXM boards the
 central single CPU, the shared memory and the global clock of a
 traditional computer are relinquished in favor of a dynamic set of
-loosely coupled peers, each equipped with it's own personal clock
+loosely coupled peers, each equipped with its own personal clock
 processor and memory.  In such an environment robustness of operation
 is achieved through the abandonment of privileged points in space and
 time and the duplication of functionality across a largely homogeneous
@@ -652,7 +652,7 @@ This work has a number of interesting features.
 - The meta-evolutionary system would have a one-to-one mapping between
   individuals and boards.  This means that each individual in the
   population has a static physical address and can only communicate
-  with it's physical neighbors.  This limitation means that no global
+  with its physical neighbors.  This limitation means that no global
   GP operations (e.g. best/worst fit or random selection of
   individuals) could be applied to the boards.  Rather the GP would
   need to be distributed s.t. each GP action (crossover, mutation,
@@ -687,7 +687,7 @@ each require a small addition to the current software.
      have downloaded the GP sketch.  This example [[file:src/code-flow-sketch.pde][code-flow-sketch.pde]]
      provided by Prof. Ackley demonstrates the relevant core software
      functions required by a newly added board for acting immediately
-     after it has had it's software updated.  Alternately such a data
+     after it has had its software updated.  Alternately such a data
      pull could simply be added to the startup routine for changing
      the default behavior of all newly booted boards to that of
      goal/individual requests.
@@ -696,12 +696,12 @@ each require a small addition to the current software.
 By partitioning the fitness space across the boards in a connected
 group it may be possible to find partitions that out perform either
 the default choice of testing over the entire space on each board.
-One exciting aspect of this expansion is it's incorporation of the
+One exciting aspect of this expansion is its incorporation of the
 physical properties of the group of boards into the GP space.
 
 For example, the fitness function used in this work of comparing
 individuals against a target function at specific values of x could be
-partitioned by assigning each board it's own range of x values.  There
+partitioned by assigning each board its own range of x values.  There
 could be many interesting properties of this approach.
 - investigate whether contiguous x values assigned to neighboring
   boards is more or less effective than random assignment of ranges of
