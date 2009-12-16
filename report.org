@@ -388,10 +388,17 @@ and the height of the bar is equal to the most fit individual on the
 board.  Recall that fitness is calculated as the *difference* between
 an individual and the goal, so a lower fitness score is better.
 
-*note*: if the following don't begin playing automatically they can be
-downloaded from the following [fn:4] [fn:5] [fn:6].  On a mac you may
-need to use [[http://www.videolan.org/vlc/][VLC]] if your default video player doesn't understand these
+*note*: If the following don't begin playing automatically they can be
+download from [[somewhere][here]] and saved to your desktop.  On a mac you may need
+to use [[http://www.videolan.org/vlc/][VLC]] if your default video player doesn't understand these
 files.
+
+#+begin_latex
+  \includemovie[
+    poster,
+    text={\small(Loading video)}
+  ]{6cm}{6cm}{videos/evo_line_100_2_1.mp4}
+#+end_latex
 
 #+Caption: Formation: line Goal: "xxx**xxxx***+" Run: 0
 [[file:videos/evo_line_100_0_0.mp4]]
@@ -928,10 +935,3 @@ conversion into a movie
 [fn:2] http://reproducibleresearch.net/index.php/Main_Page
 
 [fn:3] http://livingcomputation.com/rpc/
-
-[fn:4]
-
-[fn:5]
-
-[fn:6]   
-

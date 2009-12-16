@@ -1,6 +1,11 @@
 # get rid of mac cruft
 .DS_Store
 
+# latex cruft
+*.aux
+*.log
+*.out
+
 ltxpng/*
 data/*
 graphs/*.png
