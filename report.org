@@ -417,6 +417,13 @@ files.
 #+Caption: Formation: eight Goal: "xs55+55+**" Run: 1
 [[file:videos/evo_eight_100_2_1.mp4]]
 
+#+begin_html 
+<div class="figure">
+<p><embed src="./videos/evo_eight_100_2_1.mpg" autostart="false"/></p>
+<p>Formation: eight Goal: "xs55+55+**" Run: 1</p>
+</div>
+#+end_html
+
 *** Coevolution
 Coevolution was implemented by evolving a Genetic Algorithm (GA) over
 the x values to be checked.  The coevolution task was significantly
