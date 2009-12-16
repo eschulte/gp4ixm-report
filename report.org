@@ -472,6 +472,24 @@ reported scores for these runs were so large (bad) as to overflow the
 c++ =double= type, returning non-integer values which the Ruby scripts
 could not parse.
 
+**** videos
+same disclaimer/instructions as above...
+
+#+Caption: Formation: line Goal: "xxx**xxxx***+" Run: 0
+[[file:videos/coevo_line_10000_0_1.mp4]]
+
+#+Caption: Formation: line Goal: "7xxx**+" Run: 1
+[[file:videos/coevo_line_10000_1_1.mp4]]
+
+#+Caption: Formation: line Goal: "xs55+55+**" Run: 1
+[[file:videos/coevo_line_10000_2_1.mp4]]
+
+#+Caption: Formation: eight Goal: "xxx**xxxx***+" Run: 1
+[[file:videos/coevo_eight_10000_0_1.mp4]]
+
+#+Caption: Formation: eight Goal: "7xxx**+" Run: 1
+[[file:videos/coevo_eight_10000_1_1.mp4]]
+
 ** Future Work
 - meta-GP
 - taking and giving boards
@@ -978,6 +996,10 @@ conversion into a movie
 - done with ffmpeg
   #+begin_src sh
     ffmpeg -r 4 -i %04d.png ./evo_eight_100_2_1.mp4
+  #+end_src
+- conversion to mpg done with mencoder, for example...
+  #+begin_src sh
+    mencoder coevo_line_10000_2_1.mp4 -ovc lavc -vf scale=352:288 -oac lavc -o coevo_line_10000_2_1.mpg
   #+end_src
 
 * Footnotes
