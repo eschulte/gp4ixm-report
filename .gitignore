@@ -3,6 +3,7 @@
 
 data/*
 graphs/*.png
+graphs/*.svg
 videos/**/*.png
 videos/**/**/*.data
 videos/*.mp4
