@@ -31,7 +31,7 @@ their side connections.
 #+Caption: 37 IXM boards in operation
 [[file:data/big-grid.png]]
 
-One goal of the boards was to enable experimentation with software
+One goal of the boards is to enable experimentation with software
 developed under a new set of assumptions.  On a grid of IXM boards the
 central single CPU, the shared memory and the global clock of a
 traditional computer are relinquished in favor of a dynamic set of
@@ -225,39 +225,89 @@ desirable for the IXM environment.
 - the system degrades gracefully as boards are removed from the system
 
 ** Experimental Methodology
-All experiments were run using the following methodology.  A laptop
+All experiments are run using the following methodology.  A laptop
 side [[http://www.ruby-lang.org/en/][Ruby]] script (either [[file:src/experimenter.rb][experimenter.rb]] or [[file:src/coexperimenter.rb][coexperimenter.rb]])
 communicates with an attached group of IXM boards using the [[http://github.com/mixonic/libixm][libixm]]
 Ruby library and the =sfbprog= command distributed with the core IXM
 software.  The Ruby scripts take a series of parameters and for each
 combination they
 1) input parameters to the boards
-2) initiating execution
+2) initiate board execution
 3) collect and save raw data output by the boards
 4) timeout overrunning experiments
-5) reset the boards with new parameters
+5) repeat
 
-The scripts ran in this setup for periods of 30 minutes to close to 30
-hours at a time.  The scripts were executed using the [[http://www.gnu.org/software/screen/][gnu screen]]
-program to allow persistent execution while logged out of the
-computer.
+The experiments presented below had running times between 1 hour and
+close to 30 hours.  The scripts are executed using the [[http://www.gnu.org/software/screen/][gnu screen]]
+program to allow persistent execution while the user is not logged
+into the machine.
 
-The boards reported all results using the [[file:src/collector/][collector/]] IXM library.  The
+The boards report all results using the [[file:src/collector/][collector/]] IXM library.  The
 collector library allows each board in a group to report parameters
 back to a central "collector" appending a "path" to the returned
-results.  The path can be used to uniquely identify the board and give
-it coordinates in the 2D geometry of the board layout.
+results.  The path can be used to uniquely identify the board and
+assign it coordinates in the 2D geometry of the board layout.
 
-All graphs generated as part of this report used the data as saved by
-the above Ruby scripts along with the [[file:src/group.rb][group.rb]] and [[file:src/board.rb][board.rb]] scripts.
-These scripts translated the raw data into 2D information in a form
-suitable for input to [[http://www.gnuplot.info/][gnuplot]].
+All graphs generated as part of this report used the collector output
+as saved by the above Ruby scripts along with the [[file:src/group.rb][group.rb]] and
+[[file:src/board.rb][board.rb]] scripts.  These scripts translated the raw data into 2D
+information in a form suitable for input to [[http://www.gnuplot.info/][gnuplot]].
 
 ** Results
 *** GP Parameters
+Initial experimentation was aimed at ensuring both that our GP system
+was able to solve simple tasks and that both GP operations ('mutation'
+and 'crossover') improved GP performance.
+
+These results were generated running [[file:src/evolve-sketch.pde][evolve-sketch.pde]] on a single IXM
+board.  Mutation and crossover frequencies of 10 milliseconds and 100
+milliseconds (m.10, b.10, m.100, and b.100 respectively) were tested
+resulting in the runtimes shown below.  Times shown are the average
+time taken to generate an ideal individual over 5 runs.  The results
+indicate that both mutation and crossover reduce the runtime required
+for the GP to solve problems.  In addition it appears that crossover
+is more effective against harder problems (e.g. "xxx**xxxx***+") while
+mutation is more effective against simpler problems (e.g. "7xxx**+").
+
+#+begin_src gnuplot :var data=gp-params_results :exports none :file graphs/gp-params.svg :results silent
+  set boxwidth 0.9 relative
+  set xlabel 'problems'
+  set xtics ("xxx**xxxx***+" 0, "7xxx**+" 1)
+  set ylabel 'runtimes (seconds)'
+  set style data histograms
+  set style fill solid 1.0 border -1
+  plot data using 2 title 'm.10 b.10', '' using 3 title 'm.10 b.100', '' using 4 title 'm.100 b.10', '' using 5 title 'm.100 b.100'
+#+end_src
+
+#+Caption: runtime by GP parameters
+[[file:graphs/gp-params.svg]]
+
 *** Sub-populations and Sharing
+After the basic GP operations had been verified we investigated the
+effect of distributing the GP over multiple boards.  An series of runs
+were performed using sharing frequencies of 100 milliseconds and
+mutation and crossover frequencies of 10 milliseconds.  Times shown
+are the average time taken to generate an ideal individual over 5
+runs.  Although the effect of adding a second board was not dramatic
+there is clear evidence that the addition of a second board and a
+second population did increase the effectiveness of the GP.
+
+#+begin_src gnuplot :var data=sharing_results :exports none :file graphs/sharing.svg :results silent
+  set boxwidth 0.9 relative
+  set xlabel 'problems'
+  set xtics ("xxx**" 1, "xx*" 0)
+  set ylabel 'runtimes (seconds)'
+  set style data histograms
+  set style fill solid 1.0 border -1
+  plot data using 2 title 'smb', '' using 3 title '-mb'
+#+end_src
+
+#+Caption: sharing individuals across two boards
+[[file:graphs/sharing.svg]]
+
 *** Layout
 *** Coevolution
+
 ** Future Work
 - meta-GP
 - taking and giving boards
@@ -477,6 +527,87 @@ only works gnuplot is called twice)
 #+results:
 [[file:graphs/gp-params.svg]]
 
+*** sharing
+#+srcname: sharing_results_setup
+#+begin_src ruby :results output raw :exports code
+  # each instance holds the information from one run
+  class Result
+    attr_accessor :s, :m, :b, :g, :raw
+    def initialize(s, m, b, g)
+      self.s = s; self.m = m; self.b = b; self.g = g
+    end
+    def counts
+      self.raw.split("\n").
+        map{|l| [Float($1), Float($2)] if l.match(/([\.\d]+)[ \t]([\.\d]+)/)}.compact
+    end
+    def runtime() self.counts.size end
+    def average
+      if self.runtime > 0
+        self.counts.inject(0){ |sum, n| sum + n[1] } / self.runtime
+      else
+        -1
+      end
+    end
+  end
+  
+  base = "./raw/sharing/"
+  results = Dir.entries(base).map do |e|
+    if e.match(/r_s.(\d+)_m.(\d+)_b.(\d+)_g.(\d+).(\d+)/)
+      r = Result.new($1, $2, $3, Float("#{$4}.#{$5}"))
+      r.raw = File.read(File.join(base, e))
+      r
+    end
+  end.compact
+#+end_src
+
+#+srcname: sharing_results_by_goal
+#+begin_src ruby :results raw output :exports code :noweb
+  # <<sharing_results_setup>>
+  # print out averaged over 5 goal runs
+  puts "|sharing|mutation|breeding|goal|runtime|average|"
+  puts "|--------"
+  runtime = 0; average = 0
+  results.each do |r|
+    goal_num  = r.g.to_s.split(".")[0]
+    goal_time = r.g.to_s.split(".")[1]
+    runtime  += r.runtime
+    average  += r.average
+    if goal_time == "4"
+      runtime = runtime / 5
+      average = average / 5
+      puts "|"+[:s, :m, :b].map{ |meth| r.send(meth).to_s}.join("|")+
+        "|#{goal_num}|#{runtime}|#{average}|"
+      runtime = 0
+      average = 0
+    end
+  end
+#+end_src
+
+#+resname: sharing_results_by_goal
+| goal | sharing | mutation | breeding | runtime |          average |
+|------+---------+----------+----------+---------+------------------|
+|    0 |     100 |       10 |       10 |      34 |  2131.9212962963 |
+|    0 |       0 |       10 |       10 |      14 | 2790.12836363636 |
+|    1 |     100 |       10 |       10 |      10 | 121.083356643357 |
+|    1 |       0 |       10 |       10 |      17 | 300.862181818182 |
+
+#+tblname: sharing_results
+| goal |              smb |              -mb |
+|------+------------------+------------------|
+|    1 | 121.083356643357 | 300.862181818182 |
+|    2 |  2131.9212962963 | 2790.12836363636 |
+
+#+begin_src gnuplot :var data=sharing_results :exports code :results silent
+  reset
+  set boxwidth 0.9 relative
+  set xlabel 'problems'
+  set xtics ("xxx**" 1, "xx*" 0)
+  set ylabel 'runtimes (seconds)'
+  set style data histograms
+  set style fill solid 1.0 border -1
+  plot data using 2 title 'smb', '' using 3 title '-mb'
+#+end_src
+
 *** ingest a directory of results into ruby
 ingest a directories worth of run results and return a list of Datum
 #+source: ingest
@@ -561,7 +692,7 @@ evo individuals are check on the (0..9) range inclusive
   puts $stack.pop
 #+end_src
 
-#+begin_src gnuplot
+#+begin_src gnuplot :exports none
   set xrange[0:10]
   set xtics 0,1,10
   set yrange[-120:120]
@@ -571,7 +702,7 @@ evo individuals are check on the (0..9) range inclusive
 
 wider range
 
-#+begin_src gnuplot
+#+begin_src gnuplot :exports none
   set grid
   plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
 #+end_src
@@ -640,7 +771,7 @@ returned before the reset packet
   file.open('/tmp/goal_0_coevo.txt', 'w'){|f| f << by_goal.select{|d| d.share == 1000}.select{|d| d.run == 4}.sort_by{|d| d.time}.map{|d| "#{d.time}\t#{d.score}" }.join("\n") }
 #+end_src
 
-#+begin_src gnuplot
+#+begin_src gnuplot :exports none
   plot '/tmp/goal_0_coevo.txt' using 1:2
 #+end_src
 
