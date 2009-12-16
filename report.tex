@@ -1,4 +1,4 @@
-% Created 2009-12-16 Wed 10:47
+% Created 2009-12-16 Wed 10:59
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -20,7 +20,7 @@ pdfborder={0 0 0 0}
 }
 
 \title{Genetic Programming on IXM}
-\author{Eric}
+\author{Eric Schulte}
 \date{16 December 2009}
 
 \begin{document}
@@ -72,7 +72,7 @@ their side connections.
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em]{data/big-grid.png}
+\includegraphics[width=26em]{data/big-grid.png}
 \caption{37 IXM boards in operation}
 \end{figure}
 
@@ -111,7 +111,7 @@ the RPN stack machine facilitated quick development on the IXM boards.
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em]{data/rpn-stack.png}
+\includegraphics[width=26em]{data/rpn-stack.png}
 \caption{RPN stack machine}
 \end{figure}
 
@@ -216,7 +216,7 @@ framework as implemented out on a single board.
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em]{data/board-layout.png}
+\includegraphics[width=26em]{data/board-layout.png}
 \caption{Layout of a single IXM board}
 \end{figure}
 
@@ -293,7 +293,11 @@ mutation is more effective against simpler problems (e.g. ``7xxx**+'').
 
 
 
-\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/gp-params.svg}{file:graphs/gp-params.svg}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=26em]{graphs/gp-params.png}
+\caption{runtime by GP parameters}
+\end{figure}
 
 \subsubsection*{Sub-populations and Sharing}
 \label{sec-1.5.2}
@@ -309,7 +313,11 @@ second population did increase the effectiveness of the GP.
 
 
 
-\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/sharing.svg}{file:graphs/sharing.svg}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=26em]{graphs/sharing.png}
+\caption{sharing individuals across two boards}
+\end{figure}
 
 \subsubsection*{Sharing and Layout}
 \label{sec-1.5.3}
@@ -326,13 +334,13 @@ the 10 runs.
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em]{data/line.png}
+\includegraphics[width=26em]{data/line.png}
 \caption{line layout}
 \end{figure}
 
 \begin{figure}[htb]
 \centering
-\includegraphics[width=10em]{data/figure-eight.png}
+\includegraphics[width=26em]{data/figure-eight.png}
 \caption{figure eight layout}
 \end{figure}
 
@@ -414,13 +422,21 @@ values of x with a best score of 136.07.
 
 
 
-\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_line_2_best.svg}{file:graphs/evo\_line\_2\_best.svg}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=26em]{graphs/evo_line_2_best.png}
+\caption{best individual in range}
+\end{figure}
 
 although globally the fit is less impressive
 
 
 
-\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_line_2_best_wide.svg}{file:graphs/evo\_line\_2\_best\_wide.svg}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=26em]{graphs/evo_line_2_best_wide.png}
+\caption{best individual out of range}
+\end{figure}
 
 \end{itemize} % ends low level
 
@@ -495,13 +511,21 @@ values of x with a score of 254.35.
 
 
 
-\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_eight_2_best.svg}{file:graphs/evo\_eight\_2\_best.svg}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=26em]{graphs/evo_eight_2_best.png}
+\caption{best individual in range}
+\end{figure}
 
 although globally the fit is less impressive
 
 
 
-\href{file:///nfs/adaptive/eschulte/src/gp4ixm-report/graphs/evo_eight_2_best_wide.svg}{file:graphs/evo\_eight\_2\_best\_wide.svg}
+\begin{figure}[htb]
+\centering
+\includegraphics[width=26em]{graphs/evo_eight_2_best_wide.png}
+\caption{best individual out of range}
+\end{figure}
 
 \end{itemize} % ends low level
 

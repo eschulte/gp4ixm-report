@@ -1,5 +1,7 @@
-#+ -*- org-export-latex-image-default-option: "width=28em" -*-
+# -*- org-export-latex-image-default-option: "width=26em" -*-
 #+TITLE: Genetic Programming on IXM
+#+AUTHOR: Eric Schulte
+#+EMAIL: eschulte at cs dot unm dot edu
 #+OPTIONS: num:nil ^:nil TeX:t LaTeX:t
 #+LaTeX_CLASS: normal
 #+STARTUP: hideblocks
@@ -13,6 +15,7 @@
 #+LATEX_HEADER:  urlcolor=blue,
 #+LATEX_HEADER:  pdfborder={0 0 0 0}
 #+LATEX_HEADER:  }
+#+STYLE: <link rel="stylesheet"href="data/stylesheet.css"type="text/css">
 
 #+begin_latex 
 \definecolor{strings}{RGB}{60,179,113}
@@ -293,7 +296,7 @@ for the GP to solve problems.  In addition it appears that crossover
 is more effective against harder problems (e.g. "xxx**xxxx***+") while
 mutation is more effective against simpler problems (e.g. "7xxx**+").
 
-#+begin_src gnuplot :var data=gp-params_results :exports none :file graphs/gp-params.svg :results silent
+#+begin_src gnuplot :var data=gp-params_results :exports none :file graphs/gp-params.png :results silent
   set boxwidth 0.9 relative
   set xlabel 'problems'
   set xtics ("xxx**xxxx***+" 0, "7xxx**+" 1)
@@ -819,7 +822,7 @@ could be many interesting properties of this approach.
    :PROPERTIES:
    :CUSTOM_ID: reproduction
    :END:
-Both the pdf and html versions of this report were generated using
+Both the [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/gp4ixm-report/report.pdf][pdf]] and [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/gp4ixm-report/report.html][html]] versions of this report were generated using
 [[http://www.gnu.org/software/emacs/][Emacs]] [[http://orgmode.org/][Org-mode]] and [[http://orgmode.org/worg/org-contrib/babel/org-babel.php][Org-babel]].  These tools allow source code and data
 to be interleaved with prose in the same documents.  The source
 documents as well as all supporting files required to re-create this
