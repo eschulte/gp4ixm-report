@@ -369,7 +369,7 @@ values of x with a best score of 136.07.
 
 although globally the fit is less impressive
 
-#+begin_src gnuplot :exports code :results silent
+#+begin_src gnuplot :exports none :results silent
   set grid
   plot 100 * sin(x), ((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)
 #+end_src
@@ -426,7 +426,7 @@ values of x with a score of 254.35.
 
 although globally the fit is less impressive
 
-#+begin_src gnuplot :exports code :results silent
+#+begin_src gnuplot :exports none :results silent
   set grid
   plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
 #+end_src
@@ -554,7 +554,6 @@ same disclaimer/instructions as above...
 [[file:videos/coevo_eight_10000_1_1.mp4]]
 
 ** Conclusions
-
 ** Future Work
 - meta-GP
 - taking and giving boards
@@ -567,10 +566,10 @@ same disclaimer/instructions as above...
 Both the pdf and html versions of this report were generated using
 [[http://www.gnu.org/software/emacs/][Emacs]] [[http://orgmode.org/][Org-mode]] and [[http://orgmode.org/worg/org-contrib/babel/org-babel.php][Org-babel]].  These tools combined allow all the code
 and processed data used to conduct the experimentation and data
-analysis supporting this report to be embedded in the same document
-containing the prose of the report.  The source of this document as
-well as all supporting files required to re-create these results can
-be obtained using either git or a =.tar= or =.zip= download from
+analysis supporting this report to be embedded in the same document as
+the prose of the report.  The source of this document as well as all
+supporting files required to re-create these results can be obtained
+as a =.tar= or =.zip= download or using [[http://git-scm.com/][git]] from
 http://github.com/eschulte/gp4ixm-report.
 
 See [[file:data-analysis.org][data-analysis]] for a collection of the tools used in collecting and
