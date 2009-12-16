@@ -315,7 +315,6 @@ three goals functions were used.  Each GP parameter combination was
 allowed 10 minutes to attempt to fit each function.  10 runs were
 performed in each setup and all reported results are the average of
 the 10 runs.
-
 **** line
 The runtimes for each sharing rate by goal.  All sharing rates are
 reported in milliseconds.  In general the results seem to illustrate
@@ -350,7 +349,7 @@ that is appears that some boards did not successfully have their goal
 reset from "7xxx**+" to "xs55+55+**" in these runs, so no data is
 available.
 
-**** eight
+**** figure eight
 The runtimes for each sharing rate by goal.  All sharing rates are
 reported in milliseconds.  In general the results seem to illustrate
 the a sharing rate of 1000 milliseconds performs best.
@@ -419,6 +418,59 @@ files.
 [[file:videos/evo_eight_100_2_1.mp4]]
 
 *** Coevolution
+Coevolution was implemented by evolving a Genetic Algorithm (GA) over
+the x values to be checked.  The coevolution task was significantly
+more difficult than the related evolutionary task as a much wider
+range of possible x values was used.  While all pure evolution
+experiments were run over the static range of integers between 0 and
+10 the coevolution x values ranged from -100 to 100.  Each x-range
+coevolution "individual" consisted of 5 x values taken from this
+range.  Mutation of coevolution individuals consisted of changing an x
+value by +-1 with a chance of 1/5.  Single point crossover was used to
+breed two coevolution individuals.  Since coevolution frequently found
+no perfect solution only the average best score is reported.
+
+**** line
+The runtimes for each sharing rate by goal.  All sharing rates are
+reported in milliseconds.  In general the results seem to illustrate
+the a sharing rate of 10000 milliseconds performs best.
+***** "xxx**xxxx***+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|       100000 |               29366.703 |
+|        10000 |                     5.0 |
+|         1000 |                    10.8 |
+
+***** "7xxx**+"
+insufficient data
+
+***** "xs55+55+**"
+insufficient data
+
+**** figure eight
+The runtimes for each sharing rate by goal.  All sharing rates are
+reported in milliseconds.  In general the results seem to illustrate
+the a sharing rate of 1000 milliseconds performs best.
+***** "xxx**xxxx***+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|       100000 |               89985.059 |
+|        10000 |                  16.624 |
+|         1000 |                5986.421 |
+
+***** "7xxx**+"
+| sharing rate | ave. time to completion |
+|--------------+-------------------------|
+|       100000 |                   9.075 |
+|        10000 |                   10.81 |
+|         1000 |                6651.732 |
+
+***** "xs55+55+**"
+No results are reported for this range, as many runs did not return
+any results.  The only plausible reason for this result is that the
+reported scores for these runs were so large (bad) as to overflow the
+c++ =double= type, returning non-integer values which the Ruby scripts
+could not parse.
 
 ** Future Work
 - meta-GP

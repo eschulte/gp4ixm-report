@@ -13,3 +13,4 @@ graphs/*.svg
 videos/**/*.png
 videos/**/**/*.data
 videos/*.mp4
+videos/*.mpg
