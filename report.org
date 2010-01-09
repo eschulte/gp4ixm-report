@@ -47,7 +47,7 @@ reader (see [[reproduction]]) in the hopes of encouraging further work in
 this area.
 
 ** Illuminato X Machina -- telos and construction
-An IXM[fn:1] board is a small square board containing an atom
+An IXM[fn:1] board is a small square board containing an ARM
 processor, memory, a button, led lights, hardware timers, a power rail
 and four connectors arrayed around the perimeter of the board.
 Although each board is in essence a small self-contained computer they
@@ -110,7 +110,8 @@ The only difference between the individual representation strings and
 the target strings is the inclusion of the 'sine' operator in the
 target strings.  This unbalance encourages interesting behavior of the
 individuals as attempt to approximate a trigonometric function using
-arithmetic operators -- in effect evolving towards a Taylor Series.
+arithmetic operators -- where the ideal behavior would be evolving
+towards a Taylor Series.
 
 *** Genetic Operators
 New individuals are generated in the following three manners.  In each
@@ -146,6 +147,8 @@ using tournament selection.
      parent is combined with the second half from the other parent as
      shown.
      #+begin_src c++ :exports code
+       individual child;
+       int index = 0;
        int mother_point = random(mother->size());
        int father_point = random(father->size());
        for(int i=0; i<mother_point; ++i) {
@@ -158,6 +161,9 @@ using tournament selection.
          ++index;
        }
        child.representation[index] = '\0';
+       child.score();
+       if(not child.check()) pprintf("L from crossover\n");
+       return child;
      #+end_src
 - sharing :: During sharing an individual is selected and is "shared"
      with all of the IXM board's neighbors.
@@ -167,11 +173,14 @@ using tournament selection.
      selected from the population at random and the fittest of these
      individuals "wins" the tournament and is selected.
      #+begin_src c++
-         for(int i=0; i<tournament_size; ++i) {
-           challenger = random(POP_SIZE);
-           if(pop[challenger].fitness < pop[winner].fitness)
-             winner = challenger;
-         }
+       int winner = random(POP_SIZE);
+       int challenger = 0;
+       for(int i=0; i<tournament_size; ++i) {
+         challenger = random(POP_SIZE);
+         if(pop[challenger].fitness < pop[winner].fitness)
+           winner = challenger;
+        }
+       return & pop[winner];
      #+end_src
 
 *** Population Operations -- avoiding privileged points
@@ -856,6 +865,6 @@ analyzing experimental results.
 
 [fn:1] http://illuminatolabs.com/IlluminatoHome.htm
 
-[fn:2] http://reproducibleresearch.net/index.php/Main_Page
+[fn:2] http://livingcomputation.com/rpc/
 
-[fn:3] http://livingcomputation.com/rpc/
+[fn:3] http://reproducibleresearch.net/index.php/Main_Page

@@ -1,10 +1,8 @@
-# get rid of mac cruft
-.DS_Store
-
-# latex cruft
+# exported stuff
 *.aux
 *.log
 *.out
+*.html
 
 ltxpng/*
 data/*

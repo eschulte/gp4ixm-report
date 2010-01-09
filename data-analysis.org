@@ -1,6 +1,8 @@
 #+TITLE: GP4IXM Data Analysis tools
 #+OPTIONS: num:nil ^:nil
 #+LaTeX_CLASS: normal
+#+STARTUP: hideblocks
+#+STYLE: <link rel="stylesheet"href="data/stylesheet.css"type="text/css">
 
 * Data Analysis
 ** tools
@@ -242,11 +244,14 @@ creating a sqlite3 table to hold this info
 #+end_src
 
 *** rpn to alg
+    :PROPERTIES:
+    :CUSTOM_ID: rpn-to-alg
+    :END:
 
 evo individuals are check on the (0..9) range inclusive
 
 #+results: rpn-string
-| x2*x6-/3x7+*x3x-*/+7* |
+| 4x51+x33x74+//x9x362/x/-x2/5/-x+*98+x3x-*3++5-3-x3x-*3**4++4- |
 
 #+source: rpn-to-alg
 #+begin_src ruby :var ind=rpn-string :results output
@@ -265,14 +270,14 @@ evo individuals are check on the (0..9) range inclusive
 #+end_src
 
 #+results: rpn-to-alg
-: ((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)
+: (((x * (((3 - ((6 / 2) / x)) - ((x / 2) / 5)) + x)) + ((((((9 + 8) + ((x * (3 - x)) + 3)) - 5) - 3) * ((x * (3 - x)) * 3)) + 4)) - 4)
 
 #+begin_src gnuplot :exports code
   set xrange[0:10]
   set xtics 0,1,10
   set yrange[-120:120]
   set grid
-  plot 100 * sin(x), ((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)
+  plot 100 * sin(x), (((((((((2 * x) - 5) * (3 * ((((((x / ((x / ((2 * x) - 5)) * ((5 * x) / 5))) * x) * 6) - 3) * (x - (5 / 5))) / 5))) / 6) + 3) * x) / 6) + (((3 - x) * x) * 5)) * 8)
 #+end_src
 
 wider range
@@ -281,6 +286,44 @@ wider range
   set grid
   plot 100 * sin(x), ((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)
 #+end_src
+
+**** rpn-to-alg in clojure
+     :PROPERTIES:
+     :CUSTOM_ID: rpn-to-alg-in-clojure
+     :END:
+
+mainly for clojure practice, lets re-write the above
+#+begin_src clojure :results output
+  (def operators '(\+ \- \* \/))
+  (def string "37x*x9x/3*9-*6-x-x/x+*")
+  (defn to-alg [chars stack]
+    (if (> (.size chars) 0)
+      (let [el (first chars)]
+        (if (some #{el} operators)
+          (to-alg (rest chars)
+                  (cons
+                   (apply str "( " (or (first stack) 1) " " el " " (or (second stack) 1) " )")
+                   (rest (rest stack))))
+          (to-alg (rest chars) (cons el stack))))
+      (first stack)))
+  (to-alg (seq string) '())
+#+end_src
+
+**** gnuplot divide by zero
+     :PROPERTIES:
+     :CUSTOM_ID: gnuplot-divide-by-zero
+     :END:
+
+#+source: gnuplot-divide-by-0
+#+begin_src gnuplot :file data/gnuplot-divide-by-zero.png :exports code
+  set xrange [-5:5]
+  plot 1/x
+#+end_src
+
+resulting in
+
+#+results:
+[[file:data/gnuplot-divide-by-zero.png]]
 
 *** narrow down to a specific goal
 #+begin_src ruby
