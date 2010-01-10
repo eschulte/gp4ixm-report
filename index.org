@@ -321,8 +321,8 @@ results.  The path can be used to uniquely identify the board and
 assign it coordinates in the 2D geometry of the board layout.
 
 All graphs generated as part of this report used the collector output
-as saved by the above Ruby scripts along with the [[file:src/group.rb][group.rb]] and
-[[file:src/board.rb][board.rb]] scripts.  These scripts translated the raw path data into 2D
+as saved by the above Ruby scripts along with the [[http://github.com/eschulte/gp4ixm/blob/master/group.rb][group.rb]] and
+[[http://github.com/eschulte/gp4ixm/blob/master/board.rb][board.rb]] scripts.  These scripts translated the raw path data into 2D
 information in a form suitable for input to [[http://www.gnuplot.info/][gnuplot]].
 
 ** Results
@@ -331,7 +331,7 @@ Initial experimentation was aimed at ensuring both that our GP system
 was able to solve simple tasks and that both GP operations ('mutation'
 and 'crossover') improved GP performance.
 
-These results were generated running [[file:src/evolve-sketch.pde][evolve-sketch.pde]] on a single IXM
+These results were generated running [[http://github.com/eschulte/gp4ixm/blob/master/evolve/sketch.pde][evolve/sketch.pde]] on a single IXM
 board.  Mutation and crossover frequencies of 10 milliseconds and 100
 milliseconds (m.10, b.10, m.100, and b.100 respectively) were tested
 resulting in the runtimes shown below.  Times shown are the average
@@ -874,7 +874,7 @@ could be many interesting properties of this approach.
    :PROPERTIES:
    :CUSTOM_ID: reproduction
    :END:
-Both the [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/gp4ixm-report/report.pdf][pdf]] and [[http://cs.unm.edu/~eschulte/classes/cs591-rpc/gp4ixm-report/report.html][html]] versions of this report were generated using
+Both the [[http://cs.unm.edu/~eschulte/research/gp4ixm/gp4ixm.pdf][pdf]] and [[http://cs.unm.edu/~eschulte/research/gp4ixm/][html]] versions of this report were generated using
 [[http://www.gnu.org/software/emacs/][Emacs]] [[http://orgmode.org/][Org-mode]] and [[http://orgmode.org/worg/org-contrib/babel/org-babel.php][Org-babel]].  These tools allow source code and data
 to be interleaved with prose in the same documents.  The source
 documents as well as all supporting files required to re-create this
@@ -883,7 +883,7 @@ from http://github.com/eschulte/gp4ixm-report.  A single massive
 =.tar= file including all graphs figures and pictures can be
 downloaded from [[somewhere][here]].
 
-See [[file:data-analysis.org][data-analysis]] for a collection of the tools used in collecting and
+See [[http://cs.unm.edu/~eschulte/research/gp4ixm/data-analysis.html][data-analysis]] for a collection of the tools used in collecting and
 analyzing experimental results.
 
 * Footnotes
