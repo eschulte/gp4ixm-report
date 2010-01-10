@@ -1,0 +1,39 @@
+.clear-fix {
+  clear: both; }
+
+#content {
+  color: #2e2e2e; }
+
+#outline-container-academics {
+  padding-top: 200px; }
+
+.outline-text-3 {
+  margin-left: 2em; }
+
+.outline-text-4 {
+  margin-left: 4em; }
+
+.outline-text-5 {
+  margin-left: 6em; }
+
+h3 {
+  margin-left: 1em;
+  color: #000; }
+
+h4 {
+  margin-left: 2em;
+  color: #000; }
+
+h5 {
+  margin-left: 3em;
+  color: #000; }
+
+a {
+  text-decoration: none;
+  color: #4a708b; }
+
+a:hover {
+  text-decoration: underline; }
+
+.img-link a {
+  color: white; }
