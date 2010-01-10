@@ -7,7 +7,7 @@ lang="en" xml:lang="en">
 <title>Genetic Programming on IXM</title>
 <meta http-equiv="Content-Type" content="text/html;charset=iso-8859-1"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2009-12-16 12:11:29 MST"/>
+<meta name="generated" content="2010-01-10 15:35:58 MST"/>
 <meta name="author" content="Eric Schulte"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -24,8 +24,6 @@ lang="en" xml:lang="en">
   p.verse { margin-left: 3% }
   pre {
 	border: 1pt solid #AEBDCC;
-	background-color: #232323;
-	color: #E6E1DC;
 	padding: 5pt;
 	font-family: courier, monospace;
         font-size: 90%;
@@ -139,7 +137,7 @@ distributed nature of subpopulation GP is shown to be a natural fit
 for the IXM environment and directions for future work are discussed.
 In the spirit of Reproducible Research<sup><a class="footref" name="fnr.3" href="#fn.3">3</a></sup>, all source code and
 experimental data referenced in this work is made available to the
-reader (see <a href="#sec-1.8">reproduction</a>) in the hopes of encouraging further work in
+reader (see <a href="#reproduction">reproduction</a>) in the hopes of encouraging further work in
 this area.
 </p>
 </div>
@@ -150,7 +148,7 @@ this area.
 <h3 id="sec-1.2">Illuminato X Machina &ndash; telos and construction </h3>
 <div class="outline-text-3" id="text-1.2">
 
-<p>An IXM<sup><a class="footref" name="fnr.1.2" href="#fn.1">1</a></sup> board is a small square board containing an atom
+<p>An IXM<sup><a class="footref" name="fnr.1.2" href="#fn.1">1</a></sup> board is a small square board containing an ARM
 processor, memory, a button, led lights, hardware timers, a power rail
 and four connectors arrayed around the perimeter of the board.
 Although each board is in essence a small self-contained computer they
@@ -221,7 +219,8 @@ The only difference between the individual representation strings and
 the target strings is the inclusion of the 'sine' operator in the
 target strings.  This unbalance encourages interesting behavior of the
 individuals as attempt to approximate a trigonometric function using
-arithmetic operators &ndash; in effect evolving towards a Taylor Series.
+arithmetic operators &ndash; where the ideal behavior would be evolving
+towards a Taylor Series.
 </p>
 </div>
 
@@ -244,14 +243,13 @@ generated an initial population immediately after board boot-up.
 
 
 
-<pre class="src src-c++"><span style="color: #ffffff;">char</span> <span style="color: #b0c4de;">possibilities</span>[16] = BUILDING_BLOCKS;
+<pre class="src src-c++"><span class="org-type">char</span> <span class="org-variable-name">possibilities</span>[16] = BUILDING_BLOCKS;
 ind.representation[0] = possibilities[random(15)];
-<span style="color: #CC7833;">for</span>(<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">i</span>=0; i &lt; random(IND_SIZE); ++i) {
+<span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>=0; i &lt; random(IND_SIZE); ++i) {
   ind.representation[i] = possibilities[random(15)];
   index = i;
 }
 </pre>
-
 
 
 </dd>
@@ -259,17 +257,16 @@ ind.representation[0] = possibilities[random(15)];
 An modified copy is made of an existing individual.
 First an exact copy is made, then each step of the copies RPN
 string is mutated with a probability equal to
-<img src="ltxpng/report_8a06bb5c59292d94d5251c4b7a123beec2a16484.png"/> where <img src="ltxpng/report_1565ddbb193957c11218da62ed85d86347772180.png"/> is a parameter
+<img src="ltxpng/report_d57f5edb66e1ba22b9ed8b9f25ddacb0d5626f83.png"/> where <img src="ltxpng/report_3df77659e388b3f6d85d372ebda11dba2b5e0ebe.png"/> is a parameter
 of the GP system.
 
 
 
-<pre class="src src-c++"><span style="color: #ffffff;">char</span> <span style="color: #b0c4de;">possibilities</span>[16] = BUILDING_BLOCKS;
-<span style="color: #CC7833;">for</span>(<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">i</span>=0; i&lt;size(); ++i)
-  <span style="color: #CC7833;">if</span>(random(size()) == mutation_prob)
+<pre class="src src-c++"><span class="org-type">char</span> <span class="org-variable-name">possibilities</span>[16] = BUILDING_BLOCKS;
+<span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>=0; i&lt;size(); ++i)
+  <span class="org-keyword">if</span>(random(size()) == mutation_prob)
     representation[i] = possibilities[random(15)];
 </pre>
-
 
 
 </dd>
@@ -282,43 +279,78 @@ shown.
 
 
 
-<pre class="src src-c++"><span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">mother_point</span> = random(mother-&gt;size());
-<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">father_point</span> = random(father-&gt;size());
-<span style="color: #CC7833;">for</span>(<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">i</span>=0; i&lt;mother_point; ++i) {
+<pre class="src src-c++"><span class="org-type">individual</span> <span class="org-variable-name">child</span>;
+<span class="org-type">int</span> <span class="org-variable-name">index</span> = 0;
+<span class="org-type">int</span> <span class="org-variable-name">mother_point</span> = random(mother-&gt;size());
+<span class="org-type">int</span> <span class="org-variable-name">father_point</span> = random(father-&gt;size());
+<span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>=0; i&lt;mother_point; ++i) {
   child.representation[index] = mother-&gt;representation[i];
   ++index;
 }
-<span style="color: #CC7833;">for</span>(<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">i</span>=father_point; i&lt;father-&gt;size(); ++i) {
-  <span style="color: #CC7833;">if</span>((index+1) &gt;= (IND_SIZE - 1)) <span style="color: #CC7833;">break</span>;
+<span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>=father_point; i&lt;father-&gt;size(); ++i) {
+  <span class="org-keyword">if</span>((index+1) &gt;= (IND_SIZE - 1)) <span class="org-keyword">break</span>;
   child.representation[index] = father-&gt;representation[i];
   ++index;
 }
-child.representation[index] = <span style="color: #A5C261;">'\0'</span>;
+child.representation[index] = <span class="org-string">'\0'</span>;
+child.score();
+<span class="org-keyword">if</span>(<span class="org-keyword">not</span> child.check()) pprintf(<span class="org-string">"L from crossover\n"</span>);
+<span class="org-keyword">return</span> child;
 </pre>
-
 
 
 </dd>
 <dt>sharing</dt><dd>
-During sharing an individual is selected and is "shared"
-with all of the IXM board's neighbors.
+Sharing is how individuals propagate through a grid of
+IXM boards.  During sharing an individual is selected from the
+board's population and is sent to each of the board's neighbors.
+Each of these neighbors then adds this individual to their own
+population.  If the new individual is better than the current
+population best this is indicated by blinking an LED.
+
+
+
+<pre class="src src-c++"><span class="org-type">individual</span> <span class="org-variable-name">ind</span>;
+<span class="org-type">int</span> <span class="org-variable-name">index</span> = 0;
+ind.fitness = -1.0;
+<span class="org-type">char</span> <span class="org-variable-name">ch</span>;
+<span class="org-keyword">if</span> (packetScanf(packet, <span class="org-string">"i "</span>) != 2) {
+  pprintf(<span class="org-string">"L bad individual: '%#p'\n"</span>,packet);
+  <span class="org-keyword">return</span>;
+}
+<span class="org-keyword">while</span>((packetScanf(packet, <span class="org-string">"%c"</span>, &amp;ch)) &amp;&amp; index &lt; IND_SIZE) {
+  ind.representation[index] = ch;
+  ++index;
+}
+ind.representation[index] = <span class="org-string">'\0'</span>;
+ind.score();
+<span class="org-keyword">if</span>(ind.fitness &lt; pop.best_fitness()) {
+  QLED.on(BODY_RGB_BLUE_PIN, 500);
+  QLED.off(BODY_RGB_BLUE_PIN, 100);
+}
+pop.incorporate(ind);
+</pre>
+
+
 </dd>
 <dt>tournament selection</dt><dd>
 Whenever an individual is selected from the
 population for one of the above operations a "tournament" is
-held.  In tournament selection <img src="ltxpng/report_03fe565e1b1ab42b693826d4e4f83f26b3fbb626.png"/> individuals are
+held.  In tournament selection <img src="ltxpng/report_b1a65fc05cbfab49970b9d57e71c9c6bc4cd6cc0.png"/> individuals are
 selected from the population at random and the fittest of these
 individuals "wins" the tournament and is selected.
 
 
 
-<pre class="src src-c++"><span style="color: #CC7833;">for</span>(<span style="color: #ffffff;">int</span> <span style="color: #b0c4de;">i</span>=0; i&lt;tournament_size; ++i) {
+<pre class="src src-c++"><span class="org-type">int</span> <span class="org-variable-name">winner</span> = random(POP_SIZE);
+<span class="org-type">int</span> <span class="org-variable-name">challenger</span> = 0;
+<span class="org-keyword">for</span>(<span class="org-type">int</span> <span class="org-variable-name">i</span>=0; i&lt;tournament_size; ++i) {
   challenger = random(POP_SIZE);
-  <span style="color: #CC7833;">if</span>(pop[challenger].fitness &lt; pop[winner].fitness)
+  <span class="org-keyword">if</span>(pop[challenger].fitness &lt; pop[winner].fitness)
     winner = challenger;
-}
+ }
+<span class="org-keyword">return</span> &amp; pop[winner];
 </pre>
-
 
 
 
@@ -494,7 +526,7 @@ mutation is more effective against simpler problems (e.g. "7xxx**+").
 
 
 <div class="figure">
-<p><img src="graphs/gp-params.svg"  alt="graphs/gp-params.svg" /></p>
+<p><img src="graphs/gp-params.png"  alt="graphs/gp-params.png" /></p>
 <p>runtime by GP parameters</p>
 </div>
 
@@ -519,7 +551,7 @@ second population did increase the effectiveness of the GP.
 
 
 <div class="figure">
-<p><img src="graphs/sharing.svg"  alt="graphs/sharing.svg" /></p>
+<p><img src="graphs/sharing.png"  alt="graphs/sharing.png" /></p>
 <p>sharing individuals across two boards</p>
 </div>
 
@@ -609,7 +641,7 @@ the a sharing rate of 1000 milliseconds performs best.
 
 </li>
 <li id="sec-1.5.3.1.3">"xs55+55+**" <br/>
-This goal is equivalent to <img src="ltxpng/report_a048fc1e1b4d9a6d4aa9b0fcd8a0b319a3b7b376.png"/> which is not possible for our
+This goal is equivalent to <img src="ltxpng/report_2032fcd37d3c517d9081fc5e6b95b7046a2bff33.png"/> which is not possible for our
 GP individuals to match as they do not have the sine function as one
 of their operators.  The average best score for each sharing rate is
 reported.
@@ -635,7 +667,7 @@ reset from "7xxx**+" to "xs55+55+**" in these runs, so no data is
 available.
 </p>
 <p>
-although no individuals exactly matched <img src="ltxpng/report_a048fc1e1b4d9a6d4aa9b0fcd8a0b319a3b7b376.png"/> some did come
+although no individuals exactly matched <img src="ltxpng/report_2032fcd37d3c517d9081fc5e6b95b7046a2bff33.png"/> some did come
 close, most notably the following whose RPN representation of
 <code>x2*x6-/3x7+*x3x-*/+7*</code> expands to the following algebraic expression
 <code>((((x * 2) / (x - 6)) + ((3 * (x + 7)) / (x * (3 - x)))) * 7)</code> which
@@ -646,7 +678,7 @@ values of x with a best score of 136.07.
 
 
 <div class="figure">
-<p><img src="graphs/evo_line_2_best.svg"  alt="graphs/evo_line_2_best.svg" /></p>
+<p><img src="graphs/evo_line_2_best.png"  alt="graphs/evo_line_2_best.png" /></p>
 <p>best individual in range</p>
 </div>
 
@@ -657,7 +689,7 @@ although globally the fit is less impressive
 
 
 <div class="figure">
-<p><img src="graphs/evo_line_2_best_wide.svg"  alt="graphs/evo_line_2_best_wide.svg" /></p>
+<p><img src="graphs/evo_line_2_best_wide.png"  alt="graphs/evo_line_2_best_wide.png" /></p>
 <p>best individual out of range</p>
 </div>
 
@@ -704,7 +736,7 @@ the a sharing rate of 1000 milliseconds performs best.
 
 </li>
 <li id="sec-1.5.3.2.3">"xs55+55+**" <br/>
-This goal is equivalent to <img src="ltxpng/report_a048fc1e1b4d9a6d4aa9b0fcd8a0b319a3b7b376.png"/> which is not possible for our
+This goal is equivalent to <img src="ltxpng/report_2032fcd37d3c517d9081fc5e6b95b7046a2bff33.png"/> which is not possible for our
 GP individuals to match as they do not have the sine function as one
 of their operators.  The average best score for each sharing rate is
 reported.
@@ -724,7 +756,7 @@ reported.
 
 
 <p>
-although no individuals exactly matched <img src="ltxpng/report_c00c978143a8cc6c0e3cc7f142b7bb56fc326694.png"/> some did come
+although no individuals exactly matched <img src="ltxpng/report_a8a0e42838fafaa2c70e63b4f1492cd08cadaba1.png"/> some did come
 close, most notably the following whose RPN representation of
 <code>0757x/3-x+3x-/**x/x+x*</code> expands to the following algebraic expression
 <code>((((7 * (5 * ((((7 / x) - 3) + x) / (3 - x)))) / x) + x) * x)</code> which
@@ -735,7 +767,7 @@ values of x with a score of 254.35.
 
 
 <div class="figure">
-<p><img src="graphs/evo_eight_2_best.svg"  alt="graphs/evo_eight_2_best.svg" /></p>
+<p><img src="graphs/evo_eight_2_best.png"  alt="graphs/evo_eight_2_best.png" /></p>
 <p>best individual in range</p>
 </div>
 
@@ -746,7 +778,7 @@ although globally the fit is less impressive
 
 
 <div class="figure">
-<p><img src="graphs/evo_eight_2_best_wide.svg"  alt="graphs/evo_eight_2_best_wide.svg" /></p>
+<p><img src="graphs/evo_eight_2_best_wide.png"  alt="graphs/evo_eight_2_best_wide.png" /></p>
 <p>best individual out of range</p>
 </div>
 
@@ -967,13 +999,13 @@ shown to improve the effectiveness of the GP to varying degrees
 depending on the difficulty of the target problem.  Distribution of
 the GP system over multiple IXM boards was shown to improve the speed
 with which the GP solved problems although the ideal speedup of
-<img src="ltxpng/report_590cc2c80697c332aed738acb6434ae60aa0cc4a.png"/> was not achieved.
+<img src="ltxpng/report_ce7443c224a22c27c5156b6e141e3f4a3553a560.png"/> was not achieved.
 </p>
 <p>
 In normal evolution with mutation and crossover rates of 10
 milliseconds or 100 Hz a sharing rate of 1000 milliseconds or 1 Hz was
 shown to outperform sharing rates of 100 milliseconds 10 Hz and 10000
-milliseconds <img src="ltxpng/report_a258ec0d4c4c43e782fe096536d55f32d74921a3.png"/> Hz.  This was true in both the straight
+milliseconds <img src="ltxpng/report_e64261b7809e0e13e497e39969de9c5165bc465f.png"/> Hz.  This was true in both the straight
 line board configuration and the figure eight configuration.  This
 indicates that a sharing rate of roughly 100 times the mutation and
 crossover rate is near ideal.
@@ -1163,9 +1195,9 @@ analyzing experimental results.
 <div id="text-footnotes">
 <p class="footnote"><sup><a class="footnum" name="fn.1" href="#fnr.1">1</a></sup> <a href="http://illuminatolabs.com/IlluminatoHome.htm">http://illuminatolabs.com/IlluminatoHome.htm</a>
 </p>
-<p class="footnote"><sup><a class="footnum" name="fn.2" href="#fnr.2">2</a></sup> <a href="http://reproducibleresearch.net/index.php/Main_Page">http://reproducibleresearch.net/index.php/Main\_Page</a>
+<p class="footnote"><sup><a class="footnum" name="fn.2" href="#fnr.2">2</a></sup> <a href="http://livingcomputation.com/rpc/">http://livingcomputation.com/rpc/</a>
 </p>
-<p class="footnote"><sup><a class="footnum" name="fn.3" href="#fnr.3">3</a></sup> <a href="http://livingcomputation.com/rpc/">http://livingcomputation.com/rpc/</a>
+<p class="footnote"><sup><a class="footnum" name="fn.3" href="#fnr.3">3</a></sup> <a href="http://reproducibleresearch.net/index.php/Main_Page">http://reproducibleresearch.net/index.php/Main\_Page</a>
 </p>
 </div>
 </div>
@@ -1173,7 +1205,7 @@ analyzing experimental results.
 <p class="author"> Author: Eric Schulte
 <a href="mailto:eschulte at cs dot unm dot edu">&lt;eschulte at cs dot unm dot edu&gt;</a>
 </p>
-<p class="date"> Date: 2009-12-16 12:11:29 MST</p>
+<p class="date"> Date: 2010-01-10 15:35:58 MST</p>
 <p class="creator">HTML generated by org-mode 6.33trans in emacs 23</p>
 </div>
 </div>

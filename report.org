@@ -122,7 +122,7 @@ using tournament selection.
      element in the individual's RPN string is selected at random from
      the set of all valid RPN characters.  This is the process used to
      generated an initial population immediately after board boot-up.
-     #+begin_src c++ :exports code
+     #+begin_src c++
        char possibilities[16] = BUILDING_BLOCKS;
        ind.representation[0] = possibilities[random(15)];
        for(int i=0; i < random(IND_SIZE); ++i) {
@@ -135,7 +135,7 @@ using tournament selection.
      string is mutated with a probability equal to
      $\frac{1}{mutation\_prob}$ where $mutation\_prob$ is a parameter
      of the GP system.
-     #+begin_src c++ :exports code
+     #+begin_src c++
        char possibilities[16] = BUILDING_BLOCKS;
        for(int i=0; i<size(); ++i)
          if(random(size()) == mutation_prob)
@@ -146,7 +146,7 @@ using tournament selection.
      point is picked for each parent, then the first half from one
      parent is combined with the second half from the other parent as
      shown.
-     #+begin_src c++ :exports code
+     #+begin_src c++
        individual child;
        int index = 0;
        int mother_point = random(mother->size());
@@ -165,8 +165,33 @@ using tournament selection.
        if(not child.check()) pprintf("L from crossover\n");
        return child;
      #+end_src
-- sharing :: During sharing an individual is selected and is "shared"
-     with all of the IXM board's neighbors.
+- sharing :: Sharing is how individuals propagate through a grid of
+     IXM boards.  During sharing an individual is selected from the
+     board's population and is sent to each of the board's neighbors.
+     Each of these neighbors then adds this individual to their own
+     population.  If the new individual is better than the current
+     population best this is indicated by blinking an LED.
+     #+begin_src c++
+       individual ind;
+       int index = 0;
+       ind.fitness = -1.0;
+       char ch;
+       if (packetScanf(packet, "i ") != 2) {
+         pprintf("L bad individual: '%#p'\n",packet);
+         return;
+       }
+       while((packetScanf(packet, "%c", &ch)) && index < IND_SIZE) {
+         ind.representation[index] = ch;
+         ++index;
+       }
+       ind.representation[index] = '\0';
+       ind.score();
+       if(ind.fitness < pop.best_fitness()) {
+         QLED.on(BODY_RGB_BLUE_PIN, 500);
+         QLED.off(BODY_RGB_BLUE_PIN, 100);
+       }
+       pop.incorporate(ind);
+     #+end_src
 - tournament selection :: Whenever an individual is selected from the
      population for one of the above operations a "tournament" is
      held.  In tournament selection $tournament\_size$ individuals are
@@ -327,7 +352,7 @@ mutation is more effective against simpler problems (e.g. "7xxx**+").
 #+end_src
 
 #+Caption: runtime by GP parameters
-[[file:graphs/gp-params.svg]]
+[[file:graphs/gp-params.png]]
 
 *** Sub-populations and Sharing
 After the basic GP operations had been verified we investigated the
@@ -339,7 +364,7 @@ runs.  Although the effect of adding a second board was not dramatic
 there is clear evidence that the addition of a second board and a
 second population did increase the effectiveness of the GP.
 
-#+begin_src gnuplot :var data=sharing_results :exports none :file graphs/sharing.svg :results silent
+#+begin_src gnuplot :var data=sharing_results :exports none :file graphs/sharing.png :results silent
   set boxwidth 0.9 relative
   set xlabel 'problems'
   set xtics ("xxx**" 1, "xx*" 0)
@@ -350,7 +375,7 @@ second population did increase the effectiveness of the GP.
 #+end_src
 
 #+Caption: sharing individuals across two boards
-[[file:graphs/sharing.svg]]
+[[file:graphs/sharing.png]]
 
 *** Sharing and Layout
 Next the effects of different sharing rates run over a large group of
@@ -424,7 +449,7 @@ values of x with a best score of 136.07.
 #+end_src
 
 #+Caption: best individual in range
-[[file:graphs/evo_line_2_best.svg]]
+[[file:graphs/evo_line_2_best.png]]
 
 although globally the fit is less impressive
 
@@ -434,7 +459,7 @@ although globally the fit is less impressive
 #+end_src
 
 #+Caption: best individual out of range
-[[file:graphs/evo_line_2_best_wide.svg]]
+[[file:graphs/evo_line_2_best_wide.png]]
 
 **** figure eight
 The runtimes for each sharing rate by goal.  All sharing rates are
@@ -481,7 +506,7 @@ values of x with a score of 254.35.
 #+end_src
 
 #+Caption: best individual in range
-[[file:graphs/evo_eight_2_best.svg]]
+[[file:graphs/evo_eight_2_best.png]]
 
 although globally the fit is less impressive
 
@@ -491,7 +516,7 @@ although globally the fit is less impressive
 #+end_src
 
 #+Caption: best individual out of range
-[[file:graphs/evo_eight_2_best_wide.svg]]
+[[file:graphs/evo_eight_2_best_wide.png]]
 
 **** video results
 The following videos are provided to better illustrate the dynamic
