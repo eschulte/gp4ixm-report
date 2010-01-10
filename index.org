@@ -298,8 +298,8 @@ desirable for the IXM environment.
 - the system degrades gracefully as boards are removed from the system
 
 ** Experimental Methodology
-A laptop side [[http://www.ruby-lang.org/en/][Ruby]] script (either [[file:src/experimenter.rb][experimenter.rb]] or
-[[file:src/coexperimenter.rb][coexperimenter.rb]]) communicates with an attached group of IXM boards
+A laptop side [[http://www.ruby-lang.org/en/][Ruby]] script (either [[http://github.com/eschulte/gp4ixm/blob/master/experimenter.rb][experimenter.rb]] or
+[[http://github.com/eschulte/gp4ixm/blob/master/coexperimenter.rb][coexperimenter.rb]]) communicates with an attached group of IXM boards
 using the [[http://github.com/mixonic/libixm][libixm]] Ruby library and the =sfbprog= command distributed
 with the core IXM software.  The Ruby scripts take a series of
 parameters and for each combination they
@@ -314,7 +314,7 @@ close to 30 hours.  The scripts are executed using the [[http://www.gnu.org/soft
 program to allow persistent execution while the user is not logged
 into the machine.
 
-The boards report all results using the [[file:src/collector/][collector/]] IXM library.  The
+The boards report all results using the [[http://github.com/eschulte/gp4ixm/tree/master/collector/][collector/]] IXM library.  The
 collector library allows each board in a group to report parameters
 back to a central "collector" appending a "path" to the returned
 results.  The path can be used to uniquely identify the board and
