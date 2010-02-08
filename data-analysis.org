@@ -302,7 +302,7 @@ mainly for clojure practice, lets re-write the above
         (if (some #{el} operators)
           (to-alg (rest chars)
                   (cons
-                   (apply str "( " (or (first stack) 1) " " el " " (or (second stack) 1) " )")
+                   (apply str "(" (or (second stack) 1) " " el " " (or (first stack) 1) ")")
                    (rest (rest stack))))
           (to-alg (rest chars) (cons el stack))))
       (first stack)))
